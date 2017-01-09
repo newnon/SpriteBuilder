@@ -23,8 +23,7 @@
 @property (nonatomic, strong) IBOutlet NSTableView *tableView;
 @property (nonatomic, strong) IBOutlet NSView *detailView;
 
-- (IBAction)selectPublishDirectoryIOS:(id)sender;
-- (IBAction)selectPublishDirectoryAndroid:(id)sender;
+
 - (IBAction)selectPackagePublishingCustomDirectory:(id)sender;
 
 - (instancetype)initWithProjectSettings:(ProjectSettings*) projectSettings;

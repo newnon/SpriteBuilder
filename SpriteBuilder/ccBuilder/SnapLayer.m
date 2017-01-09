@@ -98,8 +98,8 @@
                     {
                         CCSprite9Slice* sprtGuide = [CCSprite9Slice spriteWithImageNamed:@"ruler-guide.png"];
                         sprtGuide.contentSizeType = CCSizeTypeMake(CCSizeUnitPoints, CCSizeUnitUIPoints);
-                        sprtGuide.contentSize = CGSizeMake(winSize.width, 2);
-                        sprtGuide.anchorPoint = ccp(0, 0.5f);
+                        sprtGuide.contentSize = CGSizeMake(winSize.width, 2 * cs.stageZoom);
+                        sprtGuide.anchorPoint = ccp(0.0, 0.5);
                         sprtGuide.position = ccp(roundf(viewPos.x),roundf(viewPos.y));
                         [sprtGuide setColor:[CCColor colorWithRed:0.84 green:0.27 blue:0.78 alpha:0.7]];
                         [self addChild:sprtGuide];
@@ -115,8 +115,8 @@
                     {
                         CCSprite9Slice* sprtGuide = [CCSprite9Slice spriteWithImageNamed:@"ruler-guide.png"];
                         sprtGuide.contentSizeType = CCSizeTypeMake(CCSizeUnitPoints, CCSizeUnitUIPoints);
-                        sprtGuide.contentSize = CGSizeMake(winSize.height, 2);
-                        sprtGuide.anchorPoint = ccp(0, 0.5f);
+                        sprtGuide.contentSize = CGSizeMake(winSize.height, 2 * cs.stageZoom);
+                        sprtGuide.anchorPoint = ccp(0.0, 0.5);
                         sprtGuide.rotation = -90;
                         sprtGuide.position = ccp(roundf(viewPos.x),roundf(viewPos.y));
                         [sprtGuide setColor:[CCColor colorWithRed:0.84 green:0.27 blue:0.78 alpha:0.7]];

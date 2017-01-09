@@ -40,19 +40,14 @@
 
 @implementation CCBProjectCreator
 
--(BOOL) createDefaultProjectAtPath:(NSString*)fileName engine:(CCBTargetEngine)engine programmingLanguage:(CCBProgrammingLanguage)programmingLanguage
-{
-    NSError *error = nil;
+-(BOOL) createDefaultProjectAtPath:(NSString*)fileName {
+//    NSError *error = nil;
     NSFileManager* fm = [NSFileManager defaultManager];
     
 	NSString* substitutableProjectName = @"PROJECTNAME";
-    NSString* substitutableProjectIdentifier = @"PROJECTIDENTIFIER";
+//    NSString* substitutableProjectIdentifier = @"PROJECTIDENTIFIER";
     NSString* parentPath = [fileName stringByDeletingLastPathComponent];
     
-	if (engine == CCBTargetEngineSpriteKit)
-	{
-		substitutableProjectName = [NSString stringWithFormat:@"SPRITEKIT%@", substitutableProjectName];
-	}
 	
     NSString* zipFile = [[NSBundle mainBundle] pathForResource:substitutableProjectName ofType:@"zip" inDirectory:@"Generated"];
     
@@ -77,145 +72,6 @@
 	NSString* ccbproj = [NSString stringWithFormat:@"%@.ccbproj", substitutableProjectName];
     [fm moveItemAtPath:[parentPath stringByAppendingPathComponent:ccbproj] toPath:fileName error:NULL];
     
-    /*
-    // Update the Xcode project
-	NSString* xcodeproj = [NSString stringWithFormat:@"%@.xcodeproj", substitutableProjectName];
-    NSString* xcodeFileName = [parentPath stringByAppendingPathComponent:xcodeproj];
-    NSString* projName = [[fileName lastPathComponent] stringByDeletingPathExtension];
-    NSString* identifier = [projName sanitizedIdentifier];
-    
-    // Update the project
-    NSString *pbxprojFile = [xcodeFileName stringByAppendingPathComponent:@"project.pbxproj"];
-    [self setName:projName inFile:pbxprojFile search:substitutableProjectName];
-    [self setName:identifier inFile:pbxprojFile search:substitutableProjectIdentifier];
-    NSArray *filesToRemove;
-    if (programmingLanguage == CCBProgrammingLanguageObjectiveC)
-    {
-        [self setName:@"IPHONEOS_DEPLOYMENT_TARGET = 6.0"
-               inFile:pbxprojFile
-               search:@"IPHONEOS_DEPLOYMENT_TARGET = 7.0"];
-        [self setName:@"MACOSX_DEPLOYMENT_TARGET = 10.9"
-               inFile:pbxprojFile
-               search:@"MACOSX_DEPLOYMENT_TARGET = 10.10"];
-        [self removeLinesMatching:@".*MainScene[.]swift.*" inFile:pbxprojFile];
-        filesToRemove = @[@"Source/MainScene.swift"];
-    }
-    else if (programmingLanguage == CCBProgrammingLanguageSwift)
-    {
-        [self removeLinesMatching:@".*MainScene[.][hm].*" inFile:pbxprojFile];
-        filesToRemove = @[@"Source/MainScene.h", @"Source/MainScene.m"];
-    }
-
-    for (NSString *file in filesToRemove)
-    {
-        if (![fm removeItemAtPath:[parentPath stringByAppendingPathComponent:file] error:&error])
-        {
-            return NO;
-        }
-    }
-
-    // Update workspace data
-    [self setName:projName inFile:[xcodeFileName stringByAppendingPathComponent:@"project.xcworkspace/contents.xcworkspacedata"] search:substitutableProjectName];
-    
-    NSArray *platforms = @[@"iOS", @"Android", @"Mac"];
-    
-    for (id platform in platforms) {
-        // Update scheme
-        NSString* templateScheme = [NSString stringWithFormat:@"xcshareddata/xcschemes/%@ %@.xcscheme", substitutableProjectName, platform];
-        [self setName:projName inFile:[xcodeFileName stringByAppendingPathComponent:templateScheme] search:substitutableProjectName];
-
-        // Rename scheme file
-        NSString* schemeFile = [xcodeFileName stringByAppendingPathComponent:templateScheme];
-        NSString* format = [@"iOS" isEqualToString:platform] ? @"%@" : @"%@ %@";  // we want iOS on top
-
-        NSString* newSchemeFile = [[[schemeFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:[NSString stringWithFormat:format, projName, platform]]
-            stringByAppendingPathExtension:@"xcscheme"];
-        
-        if (![fm moveItemAtPath:schemeFile toPath:newSchemeFile error:&error])
-        {
-            return NO;
-        }
-
-        if ([@"Android" isEqualToString:platform] && programmingLanguage == CCBProgrammingLanguageSwift)
-        {
-            // Hide scheme for Android Swift projects for now
-            if (![fm removeItemAtPath:newSchemeFile error:&error])
-            {
-                return NO;
-            }
-        }
-
-        // Update plist
-        NSString* plistFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Resources/Platforms/%@/Info.plist", platform]];
-        [self setName:identifier inFile:plistFileName search:substitutableProjectIdentifier];
-        [self setName:projName inFile:plistFileName search:substitutableProjectName];
-    }
-
-    // Rename Xcode project file
-    NSString* newXcodeFileName = [[[xcodeFileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:projName] stringByAppendingPathExtension:@"xcodeproj"];
-    
-    [fm moveItemAtPath:xcodeFileName toPath:newXcodeFileName error:NULL];
-    
-    // Update Mac Xib file
-    NSString* xibFileName = [parentPath stringByAppendingPathComponent:@"Source/Resources/Platforms/Mac/MainMenu.xib"];
-    [self setName:identifier inFile:xibFileName search:substitutableProjectIdentifier];
-    [self setName:projName inFile:xibFileName search:substitutableProjectName];
-
-    // Rename Approj project file (apportable)
-    NSString* approjFileName = [parentPath stringByAppendingPathComponent:@"PROJECTNAME.approj"];
-    projName = [[fileName lastPathComponent] stringByDeletingPathExtension];
-
-    NSString* newApprojFileName = [[[approjFileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:projName] stringByAppendingPathExtension:@"approj"];
-    [fm moveItemAtPath:approjFileName toPath:newApprojFileName error:NULL];
-
-    // Android
-    NSString* activityJavaFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/java/org/cocos2d/%@/%@Activity.java", substitutableProjectIdentifier, substitutableProjectIdentifier]];
-    if ([fm fileExistsAtPath:activityJavaFileName])
-    {
-        NSString* resultActivityJavaFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/java/org/cocos2d/%@/%@Activity.java", identifier, identifier]];
-        
-        if (![fm createDirectoryAtPath:[resultActivityJavaFileName stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error]) {
-            return NO;
-        }
-        
-        if (![fm moveItemAtPath:activityJavaFileName toPath:resultActivityJavaFileName error:&error]) {
-            return NO;
-        }
-        [self setName:identifier inFile:resultActivityJavaFileName search:substitutableProjectIdentifier];
-        
-        NSString* activityMFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/%@Activity.m", substitutableProjectIdentifier]];
-        NSString* resultActivityMFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/%@Activity.m", identifier]];
-        
-        if (![fm moveItemAtPath:activityMFileName toPath:resultActivityMFileName error:&error]) {
-            return NO;
-        }
-        
-        [self setName:identifier inFile:resultActivityMFileName search:substitutableProjectIdentifier];
-        
-        NSString* activityHFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/%@Activity.h", substitutableProjectIdentifier]];
-        NSString* resultActivityHFileName = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"Source/Platforms/Android/%@Activity.h", identifier]];
-        
-        if (![fm moveItemAtPath:activityHFileName toPath:resultActivityHFileName error:&error]) {
-            return NO;
-        }
-        
-        [self setName:identifier inFile:resultActivityHFileName search:substitutableProjectIdentifier];
-        
-        NSString* manifestFileName = [parentPath stringByAppendingPathComponent:@"Source/Resources/Platforms/Android/AndroidManifest.xml"];
-        [self setName:identifier inFile:manifestFileName search:substitutableProjectIdentifier];
-        [self setName:projName inFile:manifestFileName search:substitutableProjectName];
-    }
-    
-    // configure default configuration.json and include opengles2 as a feature
-    NSString *apportableConfigFile = [NSString stringWithFormat:@"%@%@", newApprojFileName, @"/configuration.json"];
-    NSString *apportableConfigurationContents = [NSString stringWithContentsOfFile:apportableConfigFile encoding:NSUTF8StringEncoding error:&error];
-    
-    NSString *replacement = [NSString stringWithFormat:@"\"default_target\": {\"project\": \"%@\", \"project_config\": \"Release\", \"target\": \"%@\"},", projName, projName];
-    apportableConfigurationContents = [apportableConfigurationContents stringByReplacingOccurrencesOfString:@"default_target" withString:replacement];
-    [apportableConfigurationContents writeToFile:apportableConfigFile atomically:YES encoding:NSUTF8StringEncoding error:&error];
-	*/
-     
-	// perform cleanup to remove unnecessary files which only bloat the project
 	[CCBFileUtil cleanupSpriteBuilderProjectAtPath:fileName];
 	
     return [fm fileExistsAtPath:fileName];

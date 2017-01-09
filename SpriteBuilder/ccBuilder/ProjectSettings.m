@@ -45,7 +45,6 @@
 @interface ProjectSettings()
 
 @property (nonatomic, strong) NSMutableDictionary* resourceProperties;
-@property (nonatomic, readwrite) CCBTargetEngine engine;
 @property (nonatomic) BOOL storing;
 
 @end
@@ -60,12 +59,9 @@
         return NULL;
     }
 
-    self.engine = CCBTargetEngineCocos2d;
-
     self.resourcePaths = [[NSMutableArray alloc] init];
 
     self.onlyPublishCCBs = NO;
-    self.publishToZipFile = NO;
 
     self.deviceOrientationLandscapeLeft = YES;
     self.deviceOrientationLandscapeRight = YES;
@@ -75,8 +71,6 @@
     
     self.tabletPositionScaleFactor = 2.0f;
 
-    self.canUpdateCocos2D = NO;
-    self.cocos2dUpdateIgnoredVersions = [NSMutableArray array];
     self.readOnly = NO;
     
     self.resourceProperties = [NSMutableDictionary dictionary];
@@ -103,7 +97,6 @@
         return NULL;
     }
 
-	self.engine = (CCBTargetEngine)[[dict objectForKey:@"engine"] intValue];
     self.resourcePaths = [dict objectForKey:@"resourcePaths"];
     
     self.designSizeWidth = [[dict objectForKey:@"designSizeWidth"] integerValue];
@@ -197,7 +190,6 @@
         //try to load old settings
     }
 
-    self.publishToZipFile = [[dict objectForKey:@"publishToZipFile"] boolValue];
     self.onlyPublishCCBs = [[dict objectForKey:@"onlyPublishCCBs"] boolValue];
     self.exporter = [dict objectForKey:@"exporter"];
     self.deviceOrientationPortrait = [[dict objectForKey:@"deviceOrientationPortrait"] boolValue];
@@ -211,11 +203,9 @@
         self.resourceAutoScaleFactor = 4;
     }
 
-    self.cocos2dUpdateIgnoredVersions = [[dict objectForKey:@"cocos2dUpdateIgnoredVersions"] mutableCopy];
-
     self.deviceScaling = [[dict objectForKey:@"deviceScaling"] intValue];
     self.defaultOrientation = [[dict objectForKey:@"defaultOrientation"] intValue];
-    self.designTarget = [[dict objectForKey:@"designTarget"] intValue];
+    self.sceneScaleType = [[dict objectForKey:@"sceneScaleType"] intValue];
     
     self.tabletPositionScaleFactor = 2.0f;
 
@@ -264,7 +254,6 @@
 {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
 
-    dict[@"engine"] = @(_engine);
 
     dict[@"fileType"] = @"CocosBuilderProject";
     dict[@"fileVersion"] = @kCCBProjectSettingsVersion;
@@ -274,7 +263,6 @@
     dict[@"designSizeHeight"] = @(_designSizeHeight);
     dict[@"designResourceScale"] = @(_designResourceScale);
 
-    dict[@"publishToZipFile"] = @(_publishToZipFile);
     dict[@"onlyPublishCCBs"] = @(_onlyPublishCCBs);
     dict[@"exporter"] = self.exporter;
     
@@ -284,9 +272,8 @@
     dict[@"deviceOrientationLandscapeRight"] = @(_deviceOrientationLandscapeRight);
     dict[@"resourceAutoScaleFactor"] = @(_resourceAutoScaleFactor);
 
-    dict[@"cocos2dUpdateIgnoredVersions"] = _cocos2dUpdateIgnoredVersions;
-
-    dict[@"designTarget"] = @(_designTarget);
+    
+    dict[@"sceneScaleType"] = @(_sceneScaleType);
     dict[@"defaultOrientation"] = @(_defaultOrientation);
     dict[@"deviceScaling"] = @(_deviceScaling);
 
@@ -695,11 +682,7 @@
 
 		NSMutableDictionary * versionDict = [NSMutableDictionary dictionaryWithDictionary:@{@"version" : version}];
 		
-//#ifdef SPRITEBUILDER_PRO
-//		versionDict[@"sku"] = @"pro";
-//#else
 		versionDict[@"sku"] = @"default";
-//#endif
 		return versionDict;
 		
 	}
@@ -712,25 +695,6 @@
 }
 
 
-- (void)setCocos2dUpdateIgnoredVersions:(NSMutableArray *)anArray
-{
-    _cocos2dUpdateIgnoredVersions = !anArray
-        ? [NSMutableArray array]
-        : anArray;
-}
-
-/*-(void) setPublishResolution_ios_phone:(BOOL)publishResolution
-{
-	if (_engine != CCBTargetEngineSpriteKit)
-	{
-		_publishResolution_ios_phone = publishResolution;
-	}
-	else
-	{
-		// Sprite Kit doesn't run on non-Retina phones to begin with...
-		_publishResolution_ios_phone = NO;
-	}
-}*/
 
 - (void)flagFilesDirtyWithWarnings:(CCBWarnings *)warnings
 {

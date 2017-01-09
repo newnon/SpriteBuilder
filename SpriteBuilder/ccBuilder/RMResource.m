@@ -69,6 +69,23 @@
     return [ResourceManagerUtil relativePathFromAbsolutePath:_filePath];
 }
 
+- (NSString*)absoluteAutoPathForResolution:(NSString *)res {
+    
+    if (!res) res = @"auto";
+    
+    if (_type == kCCBResTypeImage)
+    {
+        NSString* fileName = [_filePath lastPathComponent];
+        NSString* dirPath = [_filePath stringByDeletingLastPathComponent];
+        NSString* resDirName = [@"resources-" stringByAppendingString:res];
+        
+        return [[dirPath stringByAppendingPathComponent:resDirName] stringByAppendingPathComponent:fileName];
+        
+    }
+    
+    return nil;
+}
+
 - (NSImage*) previewForResolution:(NSString *)res
 {
     if (!res) res = @"auto";

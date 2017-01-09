@@ -28,16 +28,12 @@
 {
     IBOutlet NSTextField* txtVersion;
     IBOutlet NSButton* btnVersion;
-	__weak NSTextFieldCell *_proSuffix;
 }
 
 @property (nonatomic,strong) NSString* version;
 
 - (IBAction)btnViewOnGithub:(id)sender;
 - (IBAction)btnSupportForum:(id)sender;
-- (IBAction)btnReportBug:(id)sender;
-- (IBAction)btnGetSource:(id)sender;
-- (IBAction)btnUserGuide:(id)sender;
 
-@property (weak) IBOutlet NSTextFieldCell *proSuffix;
+
 @end

@@ -113,8 +113,6 @@ enum {
 @class SequencerHandler;
 @class SequencerScrubberSelectionView;
 @class MainWindow;
-@class HelpWindow;
-@class APIDocsWindow;
 @class MainToolbarDelegate;
 @class CCBSplitHorizontalView;
 @class AboutWindow;
@@ -217,7 +215,6 @@ typedef void (^CompletionCallback) (BOOL success);
     IBOutlet NSMenu* menuTimelineChained;
     IBOutlet NSTextField* lblTimelineChained;
     
-    IBOutlet NSMenuItem* _menuItemExperimentalSpriteKitProject;
 
     NSMutableDictionary* defaultCanvasSizes;
     // IBOutlet NSMenuItem* menuItemStageCentered;
@@ -280,9 +277,6 @@ typedef void (^CompletionCallback) (BOOL success);
     // Modal status window
     TaskStatusWindow* modalTaskStatusWindow;
     
-    // Help window
-    HelpWindow* helpWindow;
-    APIDocsWindow* apiDocsWindow;
     
     // About window
     AboutWindow* aboutWindow;
@@ -353,12 +347,13 @@ typedef void (^CompletionCallback) (BOOL success);
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
-@property (weak) IBOutlet NSMenuItem *menuCheckForUpdates;
 @property (weak, nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframe;
 @property (weak, nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframeInterpol;
 @property (weak, nonatomic,readonly) IBOutlet NSMenu *menuContextKeyframeNoselection;
 @property (weak, nonatomic,readonly) NSSegmentedControl *panelVisibilityControl;
 
+@property (nonatomic,strong) NSString *openedProjectFileName;
+@property (nonatomic, strong) ProjectSettings* editedProjectSettings;
 @property (nonatomic,strong) ProjectSettings* projectSettings;
 @property (nonatomic,strong,readonly) NSString * applicationTitle;
 
@@ -387,7 +382,7 @@ typedef void (^CompletionCallback) (BOOL success);
 - (void) closeLastDocument;
 - (void) openFile:(NSString*)filePath;
 
-- (void)newFile:(NSString *)fileName type:(int)type resolutions:(NSMutableArray *)resolutions;
+- (void)newFile:(NSString *)fileName type:(int)type resolutions:(NSMutableArray *)resolutions layerWidth:(float) width layerHeight:(float) height;
 
 // Publish commands
 - (void)checkForDirtyDocumentAndPublishAsync:(BOOL)async;
@@ -464,11 +459,7 @@ typedef void (^CompletionCallback) (BOOL success);
 // Help
 - (IBAction)reportBug:(id)sender;
 - (IBAction)visitCommunity:(id)sender;
-- (IBAction)showHelp:(id)sender;
 
-//Help dialogs.
--(BOOL)showHelpDialog:(NSString*)type;
--(void)disableHelpDialog:(NSString*)type;
 
 @property (weak) IBOutlet NSTableView *warningTableView;
 

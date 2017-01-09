@@ -45,7 +45,7 @@
 @property (nonatomic, assign) int currentSequenceId;
 @property (nonatomic, assign) int docDimensionsType;
 @property (nonatomic, assign) NSUInteger UUID;
-
+@property (nonatomic, assign) int sceneScaleType;
 
 - (instancetype)initWithContentsOfFile:(NSString *)filePath;
 

@@ -58,10 +58,7 @@
     for (PackagePublishSettings *packageSetting in _packageSettings)
     {
         [self addPublishingTargetsForPackageSetting:packageSetting osType:kCCBPublisherOSTypeIOS];
-
-        //#ifdef SPRITEBUILDER_PRO
         [self addPublishingTargetsForPackageSetting:packageSetting osType:kCCBPublisherOSTypeAndroid];
-        //#endif
     }
 }
 
@@ -152,21 +149,10 @@
 
 - (void)addPublishingTargetsForMainProject
 {
-    /*if (_projectSettings.publishEnabledIOS)
-    {
-        [self addMainProjectPublishingTargetToPublisherForOSType:kCCBPublisherOSTypeIOS];
-    }
-
-    //#ifdef SPRITEBUILDER_PRO
-    if (_projectSettings.publishEnabledAndroid)
-    {
-        [self addMainProjectPublishingTargetToPublisherForOSType:kCCBPublisherOSTypeAndroid];
-    }*/
     for(PlatformSettings *platform in _projectSettings.platformsSettings)
     {
         [self addMainProjectPublishingTargetToPublisherForPlatform:platform];
     }
-    //#endif
 }
 
 - (void)addMainProjectPublishingTargetToPublisherForPlatform:(PlatformSettings*)platform

@@ -31,6 +31,7 @@
 #import "ResourceTypes.h"
 #import "RMSpriteFrame.h"
 #import "RMAnimation.h"
+#import <QuickLook/QuickLook.h>
 
 @protocol ResourceManagerUtil_UndeclaredSelectors <NSObject>
 @optional
@@ -329,6 +330,34 @@
         }
     }
     return icon;
+}
+
++ (NSImage*) thumbnailImageForResource:(RMResource*)res {
+    
+    NSString* path = [res absoluteAutoPathForResolution:nil];
+    CGFloat viewScale = /*fixedSize ?*/ 1.0; //: [AppDelegate appDelegate].derivedViewScaleFactor;
+    CGSize size = CGSizeMake(kRMImagePreviewSize*viewScale, kRMImagePreviewSize*viewScale);
+    NSURL *fileURL = [NSURL fileURLWithPath:path];
+    
+    if (!path|| !fileURL) {
+        return nil;
+    }
+    CGImageRef ref = QLThumbnailImageCreate(kCFAllocatorDefault,
+                                            (__bridge CFURLRef)fileURL,
+                                            CGSizeMake(size.width, size.height),
+                                            nil);
+    NSImage *newImage = nil;
+    if (ref != NULL) {
+        NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithCGImage:ref];
+        
+        if (bitmapImageRep) {
+            newImage = [[NSImage alloc] initWithSize:[bitmapImageRep size]];
+            [newImage addRepresentation:bitmapImageRep];
+        }
+        
+        CFRelease(ref);
+    }
+    return newImage;
 }
 
 @end

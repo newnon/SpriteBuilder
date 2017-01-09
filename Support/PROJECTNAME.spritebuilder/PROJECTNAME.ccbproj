@@ -2,18 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>cocos2dUpdateIgnoredVersions</key>
-	<array/>
 	<key>defaultOrientation</key>
 	<integer>1</integer>
 	<key>designResourceScale</key>
 	<real>2</real>
 	<key>designSizeHeight</key>
-	<integer>640</integer>
+	<integer>1136</integer>
 	<key>designSizeWidth</key>
-	<integer>960</integer>
-	<key>designTarget</key>
-	<integer>0</integer>
+	<integer>640</integer>
 	<key>deviceOrientationLandscapeLeft</key>
 	<true/>
 	<key>deviceOrientationLandscapeRight</key>
@@ -23,8 +19,6 @@
 	<key>deviceOrientationUpsideDown</key>
 	<false/>
 	<key>deviceScaling</key>
-	<integer>0</integer>
-	<key>engine</key>
 	<integer>0</integer>
 	<key>exporter</key>
 	<string>ccbi</string>
@@ -42,7 +36,7 @@
 			<key>compressedImageDither</key>
 			<true/>
 			<key>compressedImageFormat</key>
-			<integer>0</integer>
+			<integer>5</integer>
 			<key>compressedImageQuality</key>
 			<integer>75</integer>
 			<key>compressedNoAlphaImageCCZCompression</key>
@@ -86,7 +80,7 @@
 				<string>Main</string>
 			</array>
 			<key>publish1x</key>
-			<true/>
+			<false/>
 			<key>publish2x</key>
 			<true/>
 			<key>publish4x</key>
@@ -160,7 +154,7 @@
 				<string>Main</string>
 			</array>
 			<key>publish1x</key>
-			<true/>
+			<false/>
 			<key>publish2x</key>
 			<true/>
 			<key>publish4x</key>
@@ -200,7 +194,9 @@
 	</array>
 	<key>resourceProperties</key>
 	<dict/>
+	<key>sceneScaleType</key>
+	<integer>2</integer>
 	<key>versionStr</key>
-	<string>1.4.0</string>
+	<string>1.5</string>
 </dict>
 </plist>

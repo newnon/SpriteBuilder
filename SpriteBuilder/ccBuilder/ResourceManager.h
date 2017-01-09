@@ -31,6 +31,7 @@
 @class ProjectSettings;
 
 #define kCCBMaxTrackedDirectories 500
+#define kRMImagePreviewSize       50.0
 
 
 @interface ResourceManager : NSObject <SCEventListenerProtocol>

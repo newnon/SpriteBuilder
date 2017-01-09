@@ -25,6 +25,7 @@
 
 #import "CCBDocument.h"
 #import "CocosScene.h"
+#import "ProjectSettings.h"
 
 @implementation CCBDocument
 
@@ -38,6 +39,7 @@
 		self.stageScrollOffset = ccp(0,0);
 		self.stageColor = kCCBCanvasColorBlack;
 		self.UUID = 0x1; //Starts at One!
+        self.sceneScaleType = kCCBSceneScaleTypeDEFAULT;
 	}
     
     return self;

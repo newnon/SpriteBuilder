@@ -61,7 +61,11 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
                            dispatch_get_main_queue(), ^
                     {
-                        [[AppDelegate appDelegate] newFile:filePath type:type resolutions:resolutions];
+                        [[AppDelegate appDelegate] newFile:filePath
+                                                      type:type
+                                               resolutions:resolutions
+                                                layerWidth:newFileWindowController.width
+                                               layerHeight:newFileWindowController.height];
 
                         id parentResource = [_resourceManager resourceForPath:dirPath];
                         [_outlineView expandItem:parentResource];

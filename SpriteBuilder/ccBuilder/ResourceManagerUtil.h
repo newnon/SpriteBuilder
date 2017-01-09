@@ -40,4 +40,6 @@
 
 + (NSImage*) iconForResource:(RMResource*) res;
 
++ (NSImage*) thumbnailImageForResource:(RMResource*)res;
+
 @end

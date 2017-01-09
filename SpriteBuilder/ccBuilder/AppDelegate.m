@@ -83,11 +83,8 @@
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
-#import "HelpWindow.h"
-#import "APIDocsWindow.h"
 #import "NodeGraphPropertySetter.h"
 #import "CCBSplitHorizontalView.h"
-#import "SpriteSheetSettingsWindow.h"
 #import "AboutWindow.h"
 #import "CCBFileUtil.h"
 #import "ResourceManagerUtil.h"
@@ -112,8 +109,6 @@
 #import "PlugInNodeCollectionView.h"
 #import "SBErrors.h"
 #import "NSArray+Query.h"
-#import "Cocos2dUpdater.h"
-#import "OALSimpleAudio.h"
 #import "SBUserDefaultsKeys.h"
 #import "MiscConstants.h"
 #import "FeatureToggle.h"
@@ -125,14 +120,11 @@
 #import "PackageImporter.h"
 #import "PackageCreator.h"
 #import "ResourceCommandController.h"
-#import "ProjectMigrator.h"
 #import "ProjectSettings+Convenience.h"
 #import "CCBDocumentDataCreator.h"
 #import "CCBPublisherCacheCleaner.h"
 #import "CCBPublisherController.h"
 #import "ResourceManager+Publishing.h"
-#import "SBUpdater.h"
-#import "OpenProjectInXCode.h"
 #import "CCNode+NodeInfo.h"
 #import "PreviewContainerViewController.h"
 #import "InspectorController.h"
@@ -515,11 +507,6 @@ typedef enum
 
     [self registerNotificationObservers];
 
-    // Disable experimental features
-    if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"EnableSpriteKit"] boolValue])
-    {
-        [[_menuItemExperimentalSpriteKitProject menu] removeItem:_menuItemExperimentalSpriteKitProject];
-    }
     
     // Initialize Audio
     //[OALSimpleAudio sharedInstance];
@@ -605,7 +592,7 @@ typedef enum
     [self setupProjectTilelessEditor];
     [self setupExtras];
     [self setupResourceCommandController];
-	[self setupSparkleGui];
+
 	
     [window restorePreviousOpenedPanels];
 
@@ -729,20 +716,12 @@ typedef enum
 
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg disableKey:(NSString*)key
 {
-	if(![self showHelpDialog:key])
-	{
-		return;
-	}
 	
 	NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"%@",msg];
 	
 	[alert setShowsSuppressionButton:YES];
 	[alert runModal];
 	
-	if ([[alert suppressionButton] state] == NSOnState) {
-        // Suppress this alert from now on.
-		[self disableHelpDialog:key];
-    }
 }
 
 - (void)modalStatusWindowStartWithTitle:(NSString *)title isIndeterminate:(BOOL)isIndeterminate onCancelBlock:(OnCancelBlock)onCancelBlock
@@ -829,7 +808,14 @@ typedef enum
     
     if (doc.isDirty)
     {
-        NSAlert* alert = [NSAlert alertWithMessageText:[NSString stringWithFormat: @"Do you want to save the changes you made in the document “%@”?", [doc.filePath lastPathComponent]] defaultButton:@"Save" alternateButton:@"Cancel" otherButton:@"Don’t Save" informativeTextWithFormat:@"Your changes will be lost if you don’t save them."];
+        NSAlert* alert = [NSAlert alertWithMessageText:
+                          [NSString stringWithFormat: @"Do you want to save the changes you made in the document “%@”?",
+                           [doc.filePath lastPathComponent]]
+                                         defaultButton:@"Save"
+                                       alternateButton:@"Cancel"
+                                           otherButton:@"Don’t Save"
+                             informativeTextWithFormat:@"Your changes will be lost if you don’t save them."];
+        
         NSInteger result = [alert runModal];
         
         if (result == NSAlertDefaultReturn)
@@ -1191,8 +1177,8 @@ typedef enum
         if (projectSettings.defaultOrientation == kCCBOrientationLandscape)
         {
             // Full screen landscape
-            [updatedResolutions addObject:[ResolutionSetting settingIPhoneLandscape]];
-            [updatedResolutions addObject:[ResolutionSetting settingIPhoneRetinaLandscape]];
+//            [updatedResolutions addObject:[ResolutionSetting settingIPhoneLandscape]];
+//            [updatedResolutions addObject:[ResolutionSetting settingIPhoneRetinaLandscape]];
             [updatedResolutions addObject:[ResolutionSetting settingIPhone5Landscape]];
             [updatedResolutions addObject:[ResolutionSetting settingIPadLandscape]];
             [updatedResolutions addObject:[ResolutionSetting settingIPadRetinaLandscape]];
@@ -1202,8 +1188,8 @@ typedef enum
         else
         {
             // Full screen portrait
-            [updatedResolutions addObject:[ResolutionSetting settingIPhonePortrait]];
-            [updatedResolutions addObject:[ResolutionSetting settingIPhoneRetinaPortrait]];
+//            [updatedResolutions addObject:[ResolutionSetting settingIPhonePortrait]];
+//            [updatedResolutions addObject:[ResolutionSetting settingIPhoneRetinaPortrait]];
             [updatedResolutions addObject:[ResolutionSetting settingIPhone5Portrait]];
             [updatedResolutions addObject:[ResolutionSetting settingIPadPortrait]];
             [updatedResolutions addObject:[ResolutionSetting settingIPadRetinaPortrait]];
@@ -1266,7 +1252,7 @@ typedef enum
         // Save in current document
         currentDocument.resolutions = resolutions;
         currentDocument.currentResolution = currentResolution;
-        
+        currentDocument.sceneScaleType = [[doc objectForKey:@"sceneScaleType"] intValue];
         [self updatePositionScaleFactor];
         
         // Update CocosScene
@@ -1434,6 +1420,27 @@ typedef enum
     [self updateCanvasBorderMenu];
 }
 
+-(void) recalculateSceneScale:(CCBDocument *) doc {
+    
+    if (doc.sceneScaleType > kCCBSceneScaleTypeCUSTOM) {
+        [self recallcScalesForScaleType:doc.sceneScaleType forDocument:doc];
+    } else
+    if (doc.sceneScaleType == kCCBSceneScaleTypeDEFAULT) {
+        [self recallcScalesForScaleType:projectSettings.sceneScaleType forDocument:doc];
+    }
+}
+
+- (void)recallcScalesForScaleType:(CCBSceneScaleType) scaleType forDocument:(CCBDocument *) doc {
+    for (ResolutionSetting* resolution in doc.resolutions) {
+        [ResolutionSettingsWindow recallcScale:resolution
+                              designResolution:CGSizeMake([AppDelegate appDelegate].projectSettings.designSizeWidth,
+                                                          [AppDelegate appDelegate].projectSettings.designSizeHeight)
+                                designResScale:[AppDelegate appDelegate].projectSettings.designResourceScale
+                                     scaleType:scaleType];
+    }
+}
+
+
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
 {
     if (!forceReload && [document.filePath isEqualToString:currentDocument.filePath]) return;
@@ -1447,13 +1454,17 @@ typedef enum
     NSMutableDictionary* doc = document.data;
     
     [self replaceDocumentData:doc];
-    
+    [self recalculateSceneScale:document];
     [self updateResolutionMenu];
     [self updateTimelineMenu];
     //[self updateStateOriginCenteredMenu];
     
     CocosScene* cs = [CocosScene cocosScene];
-    [cs setStageZoom:document.stageZoom];
+    if (document.stageZoom == 1.0) {
+        document.stageZoom = 0.41;
+    }
+    [cs setStageZoom:document.stageZoom]; //TODO: fix this! this value don't saved into file
+    //CCLOG(@"document.stageZoom: %f",document.stageZoom);
     [cs setScrollOffset:document.stageScrollOffset];
     
     // Make sure timeline is up to date
@@ -1657,6 +1668,7 @@ typedef enum
     NSString* projName = [[fileName lastPathComponent] stringByDeletingPathExtension];
     fileName = [[fileName stringByAppendingPathComponent:projName] stringByAppendingPathExtension:@"ccbproj"];
     
+    self.openedProjectFileName = fileName;
     // Load the project file
     NSMutableDictionary* projectDict = [NSMutableDictionary dictionaryWithContentsOfFile:fileName];
     if (!projectDict)
@@ -1684,16 +1696,13 @@ typedef enum
     [self updateResourcePathsFromProjectSettings];
 
     // Update Node Plugins list
-	[plugInNodeViewHandler showNodePluginsForEngine:CCBTargetEngineCocos2d];
+	[plugInNodeViewHandler showNodePlugins];
 	
     BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
     if (!success)
     {
         return NO;
     }
-
-    //ProjectMigrator *migrator = [[ProjectMigrator alloc] initWithProjectSettings:projectSettings];
-    //[migrator migrate];
 
     // Load or create language file
     NSString* langFile = [[ResourceManager sharedManager].mainActiveDirectoryPath stringByAppendingPathComponent:@"Strings.json"];
@@ -1732,9 +1741,6 @@ typedef enum
     
     [self updateWarningsButton];
     [self updateSmallTabBarsEnabled];
-
-    /*Cocos2dUpdater *cocos2dUpdater = [[Cocos2dUpdater alloc] initWithAppDelegate:self projectSettings:projectSettings];
-    [cocos2dUpdater updateAndBypassIgnore:NO];*/
 
     self.window.representedFilename = [fileName stringByDeletingLastPathComponent];
 
@@ -1818,7 +1824,7 @@ typedef enum
     [projectOutlineHandler updateSelectionPreview];
 }
 
-- (void) newFile:(NSString*) fileName type:(int)type resolutions: (NSMutableArray*) resolutions;
+- (void) newFile:(NSString*) fileName type:(int)type resolutions: (NSMutableArray*) resolutions layerWidth:(float) width layerHeight:(float) height
 {
     BOOL centered = NO;
     if (type == kCCBNewDocTypeNode ||
@@ -1880,8 +1886,14 @@ typedef enum
     }
     else if (type == kCCBNewDocTypeLayer)
     {
+        for(ResolutionSetting* resolution in resolutions)
+        {
+            resolution.width = width * resolution.resourceScale;
+            resolution.height = height * resolution.resourceScale;
+        }
+        [[CocosScene cocosScene] setStageSize:CGSizeMake(width, height) centeredOrigin:centered];
         // Set contentSize to w x h in scaled coordinates for layers
-        [PositionPropertySetter setSize:NSMakeSize(resolution.width, resolution.height) type:CCSizeTypePoints forNode:[CocosScene cocosScene].rootNode prop:@"contentSize"];
+        [PositionPropertySetter setSize:NSMakeSize(0, 0) type:CCSizeTypePoints forNode:[CocosScene cocosScene].rootNode prop:@"contentSize"];
     }
     
     [outlineHierarchy reloadData];
@@ -1925,7 +1937,7 @@ typedef enum
     
     //[self updateStateOriginCenteredMenu];
     
-    [[CocosScene cocosScene] setStageZoom:1];
+    [[CocosScene cocosScene] setStageZoom:0.45];
     [[CocosScene cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
@@ -2946,13 +2958,6 @@ typedef enum
     }];
 }
 
-- (IBAction)menuOpenProjectInXCode:(id)sender
-{
-    OpenProjectInXCode *openProjectInXCodeCommand = [[OpenProjectInXCode alloc] init];
-    NSString *xcodePrjPath = [projectSettings.projectPath stringByReplacingOccurrencesOfString:@".ccbproj" withString:@".xcodeproj"];
-
-    [openProjectInXCodeCommand openProject:xcodePrjPath];
-}
 
 - (IBAction)menuProjectSettings:(id)sender
 {
@@ -2961,12 +2966,30 @@ typedef enum
         return;
     }
 
-    ProjectSettingsWindowController *settingsWindowController = [[ProjectSettingsWindowController alloc] initWithProjectSettings:self.projectSettings];
-    settingsWindowController.projectSettings = self.projectSettings;
-
-    if ([settingsWindowController runModalSheetForWindow:window])
-    {
+    NSMutableDictionary *projectDict = [NSMutableDictionary dictionaryWithContentsOfFile:self.openedProjectFileName];
+    self.editedProjectSettings = [[ProjectSettings alloc] initWithSerialization:projectDict];
+    self.editedProjectSettings.projectPath = self.openedProjectFileName;
+    ProjectSettingsWindowController *settingsWindowController = [[ProjectSettingsWindowController alloc]
+                                                                 initWithProjectSettings:self.editedProjectSettings];
+    
+    settingsWindowController.projectSettings = self.editedProjectSettings;
+    
+    if ([settingsWindowController runModalSheetForWindow:window]) {
+        self.projectSettings = NULL;
+        [ResourceManager sharedManager].projectSettings = NULL;
+        [[ResourceManager sharedManager] removeAllDirectories];
+        
+        self.projectSettings = self.editedProjectSettings;
+        self.projectSettings.projectPath = self.openedProjectFileName;
+        
+        _resourceCommandController.projectSettings = self.projectSettings;
+        projectOutlineHandler.projectSettings = self.projectSettings;
+        [ResourceManager sharedManager].projectSettings = self.projectSettings;
+        
         [self updateEverythingAfterSettingsChanged];
+    } else {
+        //press "esc" or "cancel" in project settings
+        //do nothing
     }
 }
 
@@ -3021,30 +3044,8 @@ typedef enum
     [self closeProject];
 }
 
-- (IBAction)updateCocos2d:(id)sender
-{
-    Cocos2dUpdater *cocos2dUpdater = [[Cocos2dUpdater alloc] initWithAppDelegate:self projectSettings:projectSettings];
-    [cocos2dUpdater updateAndBypassIgnore:YES];
-}
 
--(void)updateLanguageHint
-{
-    switch (saveDlgLanguagePopup.selectedItem.tag)
-    {
-        case CCBProgrammingLanguageObjectiveC:
-            saveDlgLanguageHint.title = @"All supported platforms";
-            break;
-        case CCBProgrammingLanguageSwift:
-            saveDlgLanguageHint.title = @"iOS7+ and OSX 10.10+ only";
-            break;
-        default:
-            NSAssert(false, @"Unknown programming language");
-            saveDlgLanguageHint.title = @"";  // NOTREACHED
-            break;
-    }
-}
-
--(void) createNewProjectTargetting:(CCBTargetEngine)engine
+-(void) createNewProject
 {
     // Accepted create document, prompt for place for file
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
@@ -3054,12 +3055,8 @@ typedef enum
     // Configure the accessory view
     [saveDlg setAccessoryView:saveDlgAccessoryView];
     [saveDlgLanguagePopup removeAllItems];
-    [saveDlgLanguagePopup addItemsWithTitles:@[@"Objective-C", @"Swift"]];
-    ((NSMenuItem*)saveDlgLanguagePopup.itemArray.firstObject).tag = CCBProgrammingLanguageObjectiveC;
-    ((NSMenuItem*)saveDlgLanguagePopup.itemArray.lastObject).tag = CCBProgrammingLanguageSwift;
+    [saveDlgLanguagePopup addItemsWithTitles:@[@"C++"]];
     saveDlgLanguagePopup.target = self;
-    saveDlgLanguagePopup.action = @selector(updateLanguageHint);
-    [self updateLanguageHint];
 
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
@@ -3074,9 +3071,6 @@ typedef enum
                 // Create directory
                 [[NSFileManager defaultManager] createDirectoryAtPath:fileName withIntermediateDirectories:NO attributes:NULL error:NULL];
                 
-                // Set icon of created directory
-                NSImage* folderIcon = [NSImage imageNamed:@"Folder.icns"];
-                [[NSWorkspace sharedWorkspace] setIcon:folderIcon forFile:fileName options:0];
                 
                 // Create project file
                 NSString* projectName = [fileNameRaw lastPathComponent];
@@ -3085,7 +3079,7 @@ typedef enum
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
                                dispatch_get_main_queue(), ^{
                                    CCBProjectCreator * creator = [[CCBProjectCreator alloc] init];
-                                   if ([creator createDefaultProjectAtPath:fileName engine:engine programmingLanguage:saveDlgLanguagePopup.selectedItem.tag])
+                                   if ([creator createDefaultProjectAtPath:fileName])
                                    {
                                        [self openProject:[fileNameRaw stringByAppendingPathExtension:@"spritebuilder"]];
                                    }
@@ -3105,13 +3099,9 @@ typedef enum
 
 - (IBAction) menuNewProject:(id)sender
 {
-	[self createNewProjectTargetting:CCBTargetEngineCocos2d];
+	[self createNewProject];
 }
 
--(IBAction) menuNewSpriteKitProject:(id)sender
-{
-	[self createNewProjectTargetting:CCBTargetEngineSpriteKit];
-}
 
 - (IBAction) menuNewPackage:(id)sender
 {
@@ -3291,9 +3281,12 @@ typedef enum
     ResolutionSettingsWindow* wc = [[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"];
     [wc copyResolutions: currentDocument.resolutions];
     
+    wc.sceneScaleType = currentDocument.sceneScaleType;
+    
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
+        currentDocument.sceneScaleType = wc.sceneScaleType;
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
         if(currentDocument.currentResolution<[currentDocument.resolutions count])
@@ -3441,7 +3434,7 @@ typedef enum
 {
     CocosScene* cs = [CocosScene cocosScene];
     cs.scrollOffset = ccp(0,0);
-    [cs setStageZoom:1];
+    [cs setStageZoom:0.45];
 }
 
 - (IBAction) pressedToolSelection:(id)sender
@@ -4139,7 +4132,7 @@ typedef enum
 - (IBAction)menuAddStickyNote:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
-    [cs setStageZoom:1];
+    [cs setStageZoom:0.45];
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];
 }
@@ -4252,54 +4245,10 @@ typedef enum
     return currentDocument.undoManager;
 }
 
-#pragma mark Spritebuilder Pro
 
 -(NSString*)applicationTitle
 {
-//#ifdef SPRITEBUILDER_PRO
-//	return @"SpriteBuilder 1.3 Beta";
-//#else
 	return @"SpriteBuilder";
-//#endif
-}
-
-
-#pragma mark Sparkle
-
--(void)setupSparkleGui
-{
-#if SB_SANDBOXED
-	[self.menuCheckForUpdates setHidden:YES];
-#endif
-}
-
-
-- (SBVersionComparitor*)versionComparatorForUpdater
-{
-	return [SBVersionComparitor new];
-}
-
-- (BOOL)updaterShouldPromptForPermissionToCheckForUpdates
-{
-#if TESTING || SB_SANDBOXED
-	return NO;
-#else 
-	return YES;
-#endif
-}
-
-- (NSString *)feedURLStringForUpdater:(id)updater
-{
-	//Local Host testing.
-    //return @"http://localhost/sites/version";
-	
-//#ifdef SPRITEBUILDER_PRO
-//	return @"http://update.spritebuilder.com/pro/";
-//#else
-	return @"http://update.spritebuilder.com";
-//#endif
-
-	
 }
 
 #pragma mark Extras / Snap
@@ -4316,7 +4265,7 @@ typedef enum
     self.snapToggle      = YES;
     self.snapToGuides    = YES;
     self.snapGrid        = NO;
-    self.snapNode        = NO;
+    self.snapNode        = YES;
 }
 
 -(void) setShowGuides:(BOOL)showGuidesNew {
@@ -4433,50 +4382,17 @@ typedef enum
     }
 }
 
--(BOOL)showHelpDialog:(NSString*)type
-{
-	NSDictionary * helpDialogs = [[NSUserDefaults standardUserDefaults] objectForKey:@"HelpDialogs"];
-	if(helpDialogs == nil || !helpDialogs[type])
-		return YES;
-	
-	//Its presence indicates we don't show the dialog.
-	return NO;
-			
-}
--(void)disableHelpDialog:(NSString*)type
-{
-	NSMutableDictionary * helpDialogs = [NSMutableDictionary dictionary];
-	
-	if([[NSUserDefaults standardUserDefaults] objectForKey:@"HelpDialogs"])
-	{
-		NSDictionary * temp = [[NSUserDefaults standardUserDefaults] objectForKey:@"HelpDialogs"];
-		helpDialogs = [NSMutableDictionary dictionaryWithDictionary:temp];
-	}
-	
-	helpDialogs[type] = @(NO);
-	[[NSUserDefaults standardUserDefaults] setObject:helpDialogs forKey:@"HelpDialogs"];
-}
-
-- (IBAction)showHelp:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://makegameswith.us/docs/"]];
-}
-
-- (IBAction)showAPIDocs:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.cocos2d-iphone.org/docs/api/index.html"]];
-}
 
 - (IBAction)reportBug:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/apportable/SpriteBuilder/issues"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/KAMIKAZEUA/SpriteBuilderX/issues"]];
 }
 - (IBAction)menuHiddenNode:(id)sender {
 }
 
 - (IBAction)visitCommunity:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://forum.spritebuilder.com"]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://discuss.cocos2d-x.org"]];
 }
 
 #pragma mark Debug

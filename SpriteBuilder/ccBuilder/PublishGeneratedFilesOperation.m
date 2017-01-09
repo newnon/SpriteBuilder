@@ -48,32 +48,33 @@
 {
     NSMutableDictionary* configCocos2d = [NSMutableDictionary dictionary];
 
-    NSString* screenMode = @"";
-    if (_projectSettings.designTarget == kCCBDesignTargetFixed)
+    NSString* sceneScaleType = @"CCSceneScaleDefault";
+    if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeNONE)
     {
-        screenMode = @"CCScreenModeFixed";
+        sceneScaleType = @"CCSceneScaleNone";
     }
-    else if (_projectSettings.designTarget == kCCBDesignTargetFlexible)
+    else if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeCUSTOM)
     {
-        screenMode = @"CCScreenModeFlexible";
+        sceneScaleType = @"CCSceneScaleCustom";
     }
+    else if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeMINSIZE)
+    {
+        sceneScaleType = @"CCSceneScaleMinSize";
+    }
+    else if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeMAXSIZE)
+    {
+        sceneScaleType = @"CCSceneScaleMaxSize";
+    }
+    else if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeMINSCALE)
+    {
+        sceneScaleType = @"CCSceneScaleMinScale";
+    }
+    else if (_projectSettings.sceneScaleType == kCCBSceneScaleTypeMAXSCALE)
+    {
+        sceneScaleType = @"CCSceneScaleMaxScale";
+    }
+    [configCocos2d setObject:sceneScaleType forKey:@"CCSceneScaleType"];
 
-    [configCocos2d setObject:screenMode forKey:@"CCSetupScreenMode"];
-
-    NSString *screenOrientation = @"";
-    if (_projectSettings.defaultOrientation == kCCBOrientationLandscape)
-	{
-		screenOrientation = @"CCScreenOrientationLandscape";
-	}
-	else if (_projectSettings.defaultOrientation == kCCBOrientationPortrait)
-	{
-		screenOrientation = @"CCScreenOrientationPortrait";
-	}
-
-    [configCocos2d setObject:screenOrientation forKey:@"CCSetupScreenOrientation"];
-
-    [configCocos2d setObject:[NSNumber numberWithBool:YES] forKey:@"CCSetupTabletScale2X"];
-    
     if((_projectSettings.designSizeHeight !=0) && (_projectSettings.designSizeWidth !=0) && (_projectSettings.designResourceScale !=0.0f))
     {
         [configCocos2d setObject:[NSNumber numberWithInt:_projectSettings.designSizeHeight] forKey:@"CCSetupDesignSizeHeight"];

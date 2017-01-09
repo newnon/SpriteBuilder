@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>1</integer>
+	<integer>3</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -38,7 +38,135 @@
 		<key>baseClass</key>
 		<string>CCNode</string>
 		<key>children</key>
-		<array/>
+		<array>
+			<dict>
+				<key>UUID</key>
+				<integer>1</integer>
+				<key>baseClass</key>
+				<string>CCLabelTTF</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>CCLabelTTF</string>
+				<key>memberVarAssignmentName</key>
+				<string></string>
+				<key>memberVarAssignmentType</key>
+				<integer>2</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>0.5</real>
+							<real>0.5</real>
+							<integer>0</integer>
+							<integer>2</integer>
+							<integer>2</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.5</real>
+							<real>0.5</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>string</string>
+						<key>type</key>
+						<string>Text</string>
+						<key>value</key>
+						<array>
+							<string>Hello world!</string>
+							<false/>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>fontSize</string>
+						<key>type</key>
+						<string>FloatScale</string>
+						<key>value</key>
+						<array>
+							<real>50</real>
+							<integer>2</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>fontColor</string>
+						<key>type</key>
+						<string>Color4</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>outlineColor</string>
+						<key>type</key>
+						<string>Color4</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<real>0.0</real>
+							<real>0.0</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>outlineWidth</string>
+						<key>type</key>
+						<string>FloatScale</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>shadowColor</string>
+						<key>type</key>
+						<string>Color4</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<real>0.0</real>
+							<real>0.0</real>
+							<real>0.5</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>shadowBlurRadius</string>
+						<key>type</key>
+						<string>FloatScale</string>
+						<key>value</key>
+						<array>
+							<real>0.0</real>
+							<integer>0</integer>
+						</array>
+					</dict>
+				</array>
+			</dict>
+		</array>
 		<key>customClass</key>
 		<string></string>
 		<key>displayName</key>
@@ -88,49 +216,13 @@
 			<key>centeredOrigin</key>
 			<false/>
 			<key>ext</key>
-			<string>phone</string>
-			<key>height</key>
-			<integer>480</integer>
-			<key>mainScale</key>
-			<real>1</real>
-			<key>name</key>
-			<string>iPhone Portrait (short)</string>
-			<key>resourceScale</key>
-			<real>1</real>
-			<key>width</key>
-			<integer>320</integer>
-		</dict>
-		<dict>
-			<key>additionalScale</key>
-			<real>1</real>
-			<key>centeredOrigin</key>
-			<false/>
-			<key>ext</key>
-			<string>phonehd phone</string>
-			<key>height</key>
-			<integer>960</integer>
-			<key>mainScale</key>
-			<real>1</real>
-			<key>name</key>
-			<string>iPhone Retina Portrait</string>
-			<key>resourceScale</key>
-			<real>2</real>
-			<key>width</key>
-			<integer>640</integer>
-		</dict>
-		<dict>
-			<key>additionalScale</key>
-			<real>1</real>
-			<key>centeredOrigin</key>
-			<false/>
-			<key>ext</key>
 			<string>phonehd phone</string>
 			<key>height</key>
 			<integer>1136</integer>
 			<key>mainScale</key>
 			<real>1</real>
 			<key>name</key>
-			<string>iPhone5 Portrait</string>
+			<string>iPhone 5 Portrait</string>
 			<key>resourceScale</key>
 			<real>2</real>
 			<key>width</key>
@@ -138,33 +230,51 @@
 		</dict>
 		<dict>
 			<key>additionalScale</key>
-			<real>1</real>
+			<real>1.0020657777786255</real>
 			<key>centeredOrigin</key>
 			<false/>
 			<key>ext</key>
-			<string>tablet phonehd phone</string>
+			<string>phonehd phone</string>
 			<key>height</key>
-			<integer>1024</integer>
+			<integer>1334</integer>
 			<key>mainScale</key>
-			<real>1</real>
+			<real>1.171875</real>
 			<key>name</key>
-			<string>iPad Portrait</string>
+			<string>iPhone 6 Portrait</string>
 			<key>resourceScale</key>
 			<real>2</real>
 			<key>width</key>
-			<integer>768</integer>
+			<integer>750</integer>
 		</dict>
 		<dict>
 			<key>additionalScale</key>
-			<real>1</real>
+			<real>1.0015649795532227</real>
 			<key>centeredOrigin</key>
 			<false/>
 			<key>ext</key>
 			<string>tablethd tablet phonehd phone</string>
 			<key>height</key>
+			<integer>1920</integer>
+			<key>mainScale</key>
+			<real>0.84375</real>
+			<key>name</key>
+			<string>iPhone 6+ Portrait</string>
+			<key>resourceScale</key>
+			<real>4</real>
+			<key>width</key>
+			<integer>1080</integer>
+		</dict>
+		<dict>
+			<key>additionalScale</key>
+			<real>1.3312499523162842</real>
+			<key>centeredOrigin</key>
+			<false/>
+			<key>ext</key>
+			<string>tablethd phonehd phone</string>
+			<key>height</key>
 			<integer>2048</integer>
 			<key>mainScale</key>
-			<real>1</real>
+			<real>0.90140843391418457</real>
 			<key>name</key>
 			<string>iPad Retina Portrait</string>
 			<key>resourceScale</key>
@@ -173,6 +283,8 @@
 			<integer>1536</integer>
 		</dict>
 	</array>
+	<key>sceneScaleType</key>
+	<integer>-1</integer>
 	<key>sequences</key>
 	<array>
 		<dict>

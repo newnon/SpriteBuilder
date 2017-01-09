@@ -13,7 +13,6 @@
 #import "PlatformSettingsDetailView.h"
 #import "RMPackage.h"
 #import "ResourceManager.h"
-#import "MainProjectSettingsDetailView.h"
 #import "NSString+RelativePath.h"
 #import "MiscConstants.h"
 #import "PublishUtil.h"
@@ -88,25 +87,6 @@ typedef void (^DirectorySetterBlock)(NSString *directoryPath);
     [self loadDetailViewForPlatform:_projectSettings.platformsSettings[(NSUInteger) 0]];
 }
 
-/*- (void)populateSettingsList
-{
-    for (PlatformSettings *platformSettings in _projectSettings.platformsSettings)
-    {
-        SettingsListEntry *mainProjectEntry = [[SettingsListEntry alloc] initWithPlatformSettings:platformSettings];
-        [_settingsList addObject:mainProjectEntry];
-    }
-
-    for (RMPackage *package in [[ResourceManager sharedManager] allPackages])
-    {
-        PackagePublishSettings *packagePublishSettings = [[PackagePublishSettings alloc] initWithPackage:package];
-        [packagePublishSettings load];
-
-        SettingsListEntry *packageEntry = [[SettingsListEntry alloc] init];
-        packageEntry.packagePublishSettings = packagePublishSettings;
-
-        [_settingsList addObject:packageEntry];
-    }
-}*/
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
@@ -126,8 +106,8 @@ typedef void (^DirectorySetterBlock)(NSString *directoryPath);
     NSAssert(settings != nil, @"packagePublishSettings must not be nil");
     self.currentPlatformSettings = settings;
 
-    PlatformSettingsDetailView *view = [self loadViewWithNibName:@"PlatformSettingsDetailView" viewClass:[PlatformSettingsDetailView class]];
-
+    //PlatformSettingsDetailView *view =
+    [self loadViewWithNibName:@"PlatformSettingsDetailView" viewClass:[PlatformSettingsDetailView class]];
     //view.showAndroidSettings = YES;
 }
 
@@ -155,27 +135,18 @@ typedef void (^DirectorySetterBlock)(NSString *directoryPath);
     [super acceptSheet:sender];
 }
 
+
+- (IBAction)cancelSheet:(id)sender {
+    //do nothing, also use "esc" to close this settings
+    //an so project will not be republished
+    //before that, just with "acceptSheet:" - even if you didn't modified anything - all res. wil be republished
+    [super cancelSheet:sender];
+}
+
 - (void)saveAllSettings
 {
     [_projectSettings store];
 }
-
-/*- (IBAction)selectPublishDirectoryIOS:(id)sender
-{
-    [self selectPublishCurrentPath:_projectSettings.publishDirectory
-                    dirSetterBlock:^(NSString *directoryPath) {
-        _projectSettings.publishDirectory = directoryPath;
-    }];
-}
-
-- (IBAction)selectPublishDirectoryAndroid:(id)sender
-{
-    [self selectPublishCurrentPath:_projectSettings.publishDirectoryAndroid
-                    dirSetterBlock:^(NSString *directoryPath)
-    {
-        _projectSettings.publishDirectoryAndroid = directoryPath;
-    }];
-}*/
 
 - (IBAction)selectPackagePublishingCustomDirectory:(id)sender;
 {

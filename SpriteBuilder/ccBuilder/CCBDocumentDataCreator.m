@@ -150,6 +150,7 @@
             [resolutions addObject:[r serialize]];
         }
         [dict setObject:resolutions forKey:@"resolutions"];
+        [dict setValue:[NSNumber numberWithInt:_document.sceneScaleType] forKey:@"sceneScaleType"];
         [dict setObject:@(_document.currentResolution) forKey:@"currentResolution"];
     }
 }

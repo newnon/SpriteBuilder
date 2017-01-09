@@ -60,11 +60,15 @@
 + (ResolutionSetting*) settingIPhoneRetinaPortrait;
 + (ResolutionSetting*) settingIPhone5Landscape;
 + (ResolutionSetting*) settingIPhone5Portrait;
+
 + (ResolutionSetting*) settingIPhone6;
 + (ResolutionSetting*) settingIPhone6Landscape;
 + (ResolutionSetting*) settingIPhone6Portrait;
+
++ (ResolutionSetting*) settingIPhone6Plus;
 + (ResolutionSetting*) settingIPhone6PlusLandscape;
 + (ResolutionSetting*) settingIPhone6PlusPortrait;
+
 + (ResolutionSetting*) settingIPad;
 + (ResolutionSetting*) settingIPadLandscape;
 + (ResolutionSetting*) settingIPadPortrait;
@@ -89,10 +93,6 @@
 + (ResolutionSetting*) settingAndroidXLargeLandscape;
 + (ResolutionSetting*) settingAndroidXLargePortrait;
 
-// HTML 5
-+ (ResolutionSetting*) settingHTML5;
-+ (ResolutionSetting*) settingHTML5Landscape;
-+ (ResolutionSetting*) settingHTML5Portrait;
 
 - (id) initWithSerialization:(id)serialization;
 

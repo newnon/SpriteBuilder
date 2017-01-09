@@ -542,21 +542,21 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
                 }
 				
 				
-                if(!isContentSizeZero && !(overTypeField & kCCBToolAnchor) && currentMouseTransform == kCCBTransformHandleNone)
-                {
-                    if([self isOverAnchor:node withPoint:mousePos])
-                    {
-                        overTypeField |= kCCBToolAnchor;
-                    }
-                }
-
-                if(!isContentSizeZero && !(overTypeField & kCCBToolSkew) && currentMouseTransform == kCCBTransformHandleNone)
-                {
-                    if([self isOverSkew:node withPoint:mousePos withOrientation:&skewSegmentOrientation alongAxis:&skewSegment])
-                    {
-                        overTypeField |= kCCBToolSkew;
-                    }
-                }
+//                if(!isContentSizeZero && !(overTypeField & kCCBToolAnchor) && currentMouseTransform == kCCBTransformHandleNone)
+//                {
+//                    if([self isOverAnchor:node withPoint:mousePos])
+//                    {
+//                        overTypeField |= kCCBToolAnchor;
+//                    }
+//                }
+//
+//                if(!isContentSizeZero && !(overTypeField & kCCBToolSkew) && currentMouseTransform == kCCBTransformHandleNone)
+//                {
+//                    if([self isOverSkew:node withPoint:mousePos withOrientation:&skewSegmentOrientation alongAxis:&skewSegment])
+//                    {
+//                        overTypeField |= kCCBToolSkew;
+//                    }
+//                }
 
                 if(!(overTypeField & kCCBToolRotate) && currentMouseTransform == kCCBTransformHandleNone)
                 {
@@ -566,13 +566,13 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
                     }
                 }
 
-                if(!(overTypeField & kCCBToolScale) && currentMouseTransform == kCCBTransformHandleNone)
-                {
-                   if([self isOverScale:mousePos withPoints:points withCorner:&cornerIndex withOrientation:&cornerOrientation])
-                   {
-                       overTypeField |= kCCBToolScale;
-                   }
-                }
+//                if(!(overTypeField & kCCBToolScale) && currentMouseTransform == kCCBTransformHandleNone)
+//                {
+//                   if([self isOverScale:mousePos withPoints:points withCorner:&cornerIndex withOrientation:&cornerOrientation])
+//                   {
+//                       overTypeField |= kCCBToolScale;
+//                   }
+//                }
                 
                 
                 if(!(overTypeField & kCCBToolTranslate) && currentMouseTransform == kCCBTransformHandleNone)
@@ -798,8 +798,8 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         CGPoint segment2 = ccpSub(p2, p3);
         CGPoint unitSegment2 = ccpNormalize(segment2);
         
-        const float kMinDistanceForRotation = 8.0f * [self selectionZoom];
-        const float kMaxDistanceForRotation = 25.0f * [self selectionZoom];
+        const float kMinDistanceForRotation = 1.0f * [self selectionZoom];
+        const float kMaxDistanceForRotation = 5.0f * [self selectionZoom];
        
         
         CGPoint mouseVector = ccpSub(_mousePos, p2);
@@ -1027,20 +1027,20 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         
         //NOTE The following return statements should go in order of the CCBTool enumeration.
         //kCCBToolAnchor
-        if(!isJoint && !isContentSizeZero && [self isOverAnchor:node withPoint:pt])
-            return kCCBTransformHandleAnchorPoint;
+//        if(!isJoint && !isContentSizeZero && [self isOverAnchor:node withPoint:pt])
+//            return kCCBTransformHandleAnchorPoint;
         
         if([self isOverContentBorders:pt withPoints:points])
             return kCCBTransformHandleDownInside;
         
         
         //kCCBToolScale
-        if(!isJoint && [self isOverScale:pt withPoints:points withCorner:nil withOrientation:nil])
-            return kCCBTransformHandleScale;
+//        if(!isJoint && [self isOverScale:pt withPoints:points withCorner:nil withOrientation:nil])
+//            return kCCBTransformHandleScale;
         
         //kCCBToolSkew
-        if(!isJoint && !isContentSizeZero && [self isOverSkew:node withPoint:pt withOrientation:nil alongAxis:nil])
-            return kCCBTransformHandleSkew;
+//        if(!isJoint && !isContentSizeZero && [self isOverSkew:node withPoint:pt withOrientation:nil alongAxis:nil])
+//            return kCCBTransformHandleSkew;
 
         //kCCBToolRotate
         if(!isJoint && [self isOverRotation:pt withPoints:points withCorner:nil withOrientation:nil])
@@ -1149,25 +1149,25 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     {
         CCBTransformHandle th = [self transformHandleUnderPt:pos];
         
-        if (th == kCCBTransformHandleAnchorPoint)
-        {
-            // Anchor points are fixed for singel point nodes
-            if (transformScalingNode.contentSizeInPoints.width == 0 || transformScalingNode.contentSizeInPoints.height == 0)
-            {
-                return;
-            }
-            
-            BOOL readOnly = [[[transformScalingNode.plugIn.nodePropertiesDict objectForKey:@"anchorPoint"] objectForKey:@"readOnly"] boolValue];
-            if (readOnly)
-            {
-                return;
-            }
-            
-            // Transform anchor point
-            currentMouseTransform = kCCBTransformHandleAnchorPoint;
-            [transformScalingNode cacheStartTransformAndAnchor];
-            return;
-        }
+//        if (th == kCCBTransformHandleAnchorPoint)
+//        {
+//            // Anchor points are fixed for singel point nodes
+//            if (transformScalingNode.contentSizeInPoints.width == 0 || transformScalingNode.contentSizeInPoints.height == 0)
+//            {
+//                return;
+//            }
+//            
+//            BOOL readOnly = [[[transformScalingNode.plugIn.nodePropertiesDict objectForKey:@"anchorPoint"] objectForKey:@"readOnly"] boolValue];
+//            if (readOnly)
+//            {
+//                return;
+//            }
+//            
+//            // Transform anchor point
+//            currentMouseTransform = kCCBTransformHandleAnchorPoint;
+//            [transformScalingNode cacheStartTransformAndAnchor];
+//            return;
+//        }
         if(th == kCCBTransformHandleRotate && appDelegate.selectedNode != rootNode)
         {
             // Start rotation transform
@@ -1176,24 +1176,24 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             return;
         }
         
-        if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
-        {
-            // Start scale transform
-            currentMouseTransform = kCCBTransformHandleScale;
-            transformStartScaleX = [PositionPropertySetter scaleXForNode:transformScalingNode prop:@"scale"];
-            transformStartScaleY = [PositionPropertySetter scaleYForNode:transformScalingNode prop:@"scale"];
-            return;
-            
-        }
-        if(th == kCCBTransformHandleSkew && appDelegate.selectedNode != rootNode)
-        {
-            currentMouseTransform = kCCBTransformHandleSkew;
-            
-            transformStartSkewX = transformScalingNode.skewX;
-            transformStartSkewY = transformScalingNode.skewY;
-            return;
-            
-        }
+//        if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
+//        {
+//            // Start scale transform
+//            currentMouseTransform = kCCBTransformHandleScale;
+//            transformStartScaleX = [PositionPropertySetter scaleXForNode:transformScalingNode prop:@"scale"];
+//            transformStartScaleY = [PositionPropertySetter scaleYForNode:transformScalingNode prop:@"scale"];
+//            return;
+//            
+//        }
+//        if(th == kCCBTransformHandleSkew && appDelegate.selectedNode != rootNode)
+//        {
+//            currentMouseTransform = kCCBTransformHandleSkew;
+//            
+//            transformStartSkewX = transformScalingNode.skewX;
+//            transformStartSkewY = transformScalingNode.skewY;
+//            return;
+//            
+//        }
     }
     
     
@@ -1493,100 +1493,100 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         [[InspectorController sharedController] refreshProperty:@"position"];
         [snapLayer mouseDragged:pos event:event];
     }
-    else if (currentMouseTransform == kCCBTransformHandleScale)
-    {
-        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.positionInPoints];
-        
-        //Where did we start.
-        CGPoint deltaStart = ccpSub(nodePos, mouseDownPos);
-
-        //Where are we now.
-        CGPoint deltaNew = ccpSub(nodePos, pos);
-        
-        
-        //First, unwind the current mouse down position to form an untransformed 'root' position: ie where on an untransformed image would you have clicked.
-        CGSize contentSizeInPoints = transformScalingNode.contentSizeInPoints;
-        CGPoint anchorPointInPoints = ccp( contentSizeInPoints.width * transformScalingNode.anchorPoint.x, contentSizeInPoints.height * transformScalingNode.anchorPoint.y );
-        
-        CGPoint vertexScaler  = {1.0f,1.0f};
-        if(transformScalingNode.contentSize.height != 0 && transformScalingNode.contentSize.height != 0)
-        {
-            vertexScaler = [self vertexLockedScaler:transformScalingNode.anchorPoint withCorner:cornerIndex];
-        }
-       
-
-        //T
-        CGAffineTransform translateTranform = CGAffineTransformTranslate(CGAffineTransformIdentity, -anchorPointInPoints.x, -anchorPointInPoints.y);
-
-        //S
-        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(transformStartScaleX, transformStartScaleY);
-        
-        //K
-        CGAffineTransform skewTransform = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(transformScalingNode.skewY)),
-                                                                tanf(CC_DEGREES_TO_RADIANS(transformScalingNode.skewX)), 1.0f,
-                                                                0.0f, 0.0f );
-        
-        //R
-        CGAffineTransform rotationTransform = CGAffineTransformMakeRotation(CC_DEGREES_TO_RADIANS(-transformScalingNode.rotation));
-        
-        //Root position == x,   xTKSR=mouseDown
-        //We've got a root position now.
-        CGPoint rootPosition = CGPointApplyAffineTransform(deltaStart,CGAffineTransformInvert(CGAffineTransformConcat(CGAffineTransformConcat(CGAffineTransformConcat(translateTranform,skewTransform),scaleTransform), rotationTransform)));
-        
-        //What scale (S') would be have to adjust to in order to achieve the new mouseDragg position
-        //  xTKS'R=mouseDrag,    [xTK]S'=mouseDrag*R^-1
-        // [xTK]==known==intermediate==I, R^-1==known, mouseDrag==known, solve so S'
-        
-        //xTK
-        CGPoint intermediate = CGPointApplyAffineTransform(CGPointApplyAffineTransform(rootPosition, translateTranform), skewTransform);
-        CGPoint unRotatedMouse = CGPointApplyAffineTransform(deltaNew, CGAffineTransformInvert(rotationTransform));
-        
-        CGPoint scale = CGPointMake(unRotatedMouse.x/intermediate.x , unRotatedMouse.y / intermediate.y);
-        if(isinf(scale.x) || isnan(scale.x))
-        {
-            scale.x = 0.0;
-            vertexScaler.x = 0.0f;
-        }
-
-        if(isinf(scale.y) || isnan(scale.y))
-        {
-            scale.y = 0.0;
-            vertexScaler.y = 0.0f;
-        }
-
-        
-        // Calculate new scale
-        float xScaleNew = scale.x * vertexScaler.x + transformStartScaleX * (1.0f - vertexScaler.x);
-        float yScaleNew = scale.y * vertexScaler.y + transformStartScaleY * (1.0f - vertexScaler.y);
-        
-        NodeInfo* nodeInfo = transformScalingNode.userObject;
-        
-        // Handle shift key (uniform scale)
-        if ([event modifierFlags] & NSShiftKeyMask ||  [nodeInfo.extraProps[@"scaleLock"] boolValue])
-        {
-            // Use the smallest scale composit
-            if (fabs(xScaleNew) < fabs(yScaleNew))
-            {
-                yScaleNew = xScaleNew;
-            }
-            else
-            {
-                xScaleNew = yScaleNew;
-            }
-        }
-        
-        // Set new scale
-        [appDelegate saveUndoStateWillChangeProperty:@"scale"];
-        int type = [PositionPropertySetter scaledFloatTypeForNode:transformScalingNode prop:@"scale"];
-        [PositionPropertySetter setScaledX:xScaleNew Y:yScaleNew type:type forNode:transformScalingNode prop:@"scale"];
-        [[InspectorController sharedController] refreshProperty:@"scale"];
-        
-        
-        //UpdateTheScaleTool
-        cornerOrientation = ccpNormalize(deltaNew);
-        self.currentTool = kCCBToolScale;//force it to update.
-
-    }
+//    else if (currentMouseTransform == kCCBTransformHandleScale)
+//    {
+//        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.positionInPoints];
+//        
+//        //Where did we start.
+//        CGPoint deltaStart = ccpSub(nodePos, mouseDownPos);
+//
+//        //Where are we now.
+//        CGPoint deltaNew = ccpSub(nodePos, pos);
+//        
+//        
+//        //First, unwind the current mouse down position to form an untransformed 'root' position: ie where on an untransformed image would you have clicked.
+//        CGSize contentSizeInPoints = transformScalingNode.contentSizeInPoints;
+//        CGPoint anchorPointInPoints = ccp( contentSizeInPoints.width * transformScalingNode.anchorPoint.x, contentSizeInPoints.height * transformScalingNode.anchorPoint.y );
+//        
+//        CGPoint vertexScaler  = {1.0f,1.0f};
+//        if(transformScalingNode.contentSize.height != 0 && transformScalingNode.contentSize.height != 0)
+//        {
+//            vertexScaler = [self vertexLockedScaler:transformScalingNode.anchorPoint withCorner:cornerIndex];
+//        }
+//       
+//
+//        //T
+//        CGAffineTransform translateTranform = CGAffineTransformTranslate(CGAffineTransformIdentity, -anchorPointInPoints.x, -anchorPointInPoints.y);
+//
+//        //S
+//        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(transformStartScaleX, transformStartScaleY);
+//        
+//        //K
+//        CGAffineTransform skewTransform = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(transformScalingNode.skewY)),
+//                                                                tanf(CC_DEGREES_TO_RADIANS(transformScalingNode.skewX)), 1.0f,
+//                                                                0.0f, 0.0f );
+//        
+//        //R
+//        CGAffineTransform rotationTransform = CGAffineTransformMakeRotation(CC_DEGREES_TO_RADIANS(-transformScalingNode.rotation));
+//        
+//        //Root position == x,   xTKSR=mouseDown
+//        //We've got a root position now.
+//        CGPoint rootPosition = CGPointApplyAffineTransform(deltaStart,CGAffineTransformInvert(CGAffineTransformConcat(CGAffineTransformConcat(CGAffineTransformConcat(translateTranform,skewTransform),scaleTransform), rotationTransform)));
+//        
+//        //What scale (S') would be have to adjust to in order to achieve the new mouseDragg position
+//        //  xTKS'R=mouseDrag,    [xTK]S'=mouseDrag*R^-1
+//        // [xTK]==known==intermediate==I, R^-1==known, mouseDrag==known, solve so S'
+//        
+//        //xTK
+//        CGPoint intermediate = CGPointApplyAffineTransform(CGPointApplyAffineTransform(rootPosition, translateTranform), skewTransform);
+//        CGPoint unRotatedMouse = CGPointApplyAffineTransform(deltaNew, CGAffineTransformInvert(rotationTransform));
+//        
+//        CGPoint scale = CGPointMake(unRotatedMouse.x/intermediate.x , unRotatedMouse.y / intermediate.y);
+//        if(isinf(scale.x) || isnan(scale.x))
+//        {
+//            scale.x = 0.0;
+//            vertexScaler.x = 0.0f;
+//        }
+//
+//        if(isinf(scale.y) || isnan(scale.y))
+//        {
+//            scale.y = 0.0;
+//            vertexScaler.y = 0.0f;
+//        }
+//
+//        
+//        // Calculate new scale
+//        float xScaleNew = scale.x * vertexScaler.x + transformStartScaleX * (1.0f - vertexScaler.x);
+//        float yScaleNew = scale.y * vertexScaler.y + transformStartScaleY * (1.0f - vertexScaler.y);
+//        
+//        NodeInfo* nodeInfo = transformScalingNode.userObject;
+//        
+//        // Handle shift key (uniform scale)
+//        if ([event modifierFlags] & NSShiftKeyMask ||  [nodeInfo.extraProps[@"scaleLock"] boolValue])
+//        {
+//            // Use the smallest scale composit
+//            if (fabs(xScaleNew) < fabs(yScaleNew))
+//            {
+//                yScaleNew = xScaleNew;
+//            }
+//            else
+//            {
+//                xScaleNew = yScaleNew;
+//            }
+//        }
+//        
+//        // Set new scale
+//        [appDelegate saveUndoStateWillChangeProperty:@"scale"];
+//        int type = [PositionPropertySetter scaledFloatTypeForNode:transformScalingNode prop:@"scale"];
+//        [PositionPropertySetter setScaledX:xScaleNew Y:yScaleNew type:type forNode:transformScalingNode prop:@"scale"];
+//        [[InspectorController sharedController] refreshProperty:@"scale"];
+//        
+//        
+//        //UpdateTheScaleTool
+//        cornerOrientation = ccpNormalize(deltaNew);
+//        self.currentTool = kCCBToolScale;//force it to update.
+//
+//    }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
         CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.positionInPoints];
@@ -1628,88 +1628,88 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         transformScalingNode.rotation = newRotation;
         [[InspectorController sharedController] refreshProperty:@"rotation"];
     }
-    else if (currentMouseTransform == kCCBTransformHandleSkew)
-    {
-        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.positionInPoints];
-        CGPoint anchorInPoint = transformScalingNode.anchorPointInPoints;
-        
-        //Where did we start.
-        CGPoint deltaStart = ccpSub(mouseDownPos, nodePos);
-        
-        //Where are we now.
-        CGPoint deltaNew = ccpSub(pos,nodePos);
-        
-        
-        //Delta New needs to be projected onto the vertex we're dragging as we're only effecting one skew at the moment.
-       
-        //First, unwind the current mouse down position to form an untransformed 'root' position: ie where on an untransformed image would you have clicked.
-        //CGSize contentSizeInPoints = transformScalingNode.contentSizeInPoints;
-        // CGPoint anchorPointInPoints = ccp( contentSizeInPoints.width * transformScalingNode.anchorPoint.x, contentSizeInPoints.height * transformScalingNode.anchorPoint.y );
-        
-       
-        //T
-        CGAffineTransform translateTranform = CGAffineTransformTranslate(CGAffineTransformIdentity, -anchorInPoint.x, -anchorInPoint.y);
-        
-        //S
-        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(transformScalingNode.scaleX,transformScalingNode.scaleY);
-        
-        //K
-        CGAffineTransform skewTransform = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(transformStartSkewY)),
-                                                                tanf(CC_DEGREES_TO_RADIANS(transformStartSkewX)), 1.0f,
-                                                                0.0f, 0.0f );
-        
-        //R
-        CGAffineTransform rotationTransform = CGAffineTransformMakeRotation(CC_DEGREES_TO_RADIANS(-transformScalingNode.rotation));
-        
-        
-        CGAffineTransform transform = CGAffineTransformConcat(CGAffineTransformConcat(CGAffineTransformConcat(translateTranform,skewTransform),scaleTransform), rotationTransform);
-        
-        //Root position == x,   xTKSR=mouseDown
-        
-        //We've got a root position now.cecream
-        CGPoint rootStart = CGPointApplyAffineTransform(deltaStart,CGAffineTransformInvert(transform));
-        CGPoint rootNew   = CGPointApplyAffineTransform(deltaNew,CGAffineTransformInvert(transform));
-        
-        
-        //Project the delta mouse position onto
-        rootStart   = [self projectOntoVertex:rootStart withContentSize:transformScalingNode.contentSizeInPoints alongAxis:skewSegment];
-        rootNew     = [self projectOntoVertex:rootNew   withContentSize:transformScalingNode.contentSizeInPoints alongAxis:skewSegment];
-        
-        //Apply translation
-        rootStart = CGPointApplyAffineTransform(rootStart,translateTranform);
-        rootNew   = CGPointApplyAffineTransform(rootNew,translateTranform);
-        CGPoint skew = CGPointMake((rootNew.x - rootStart.x)/rootStart.y,(rootNew.y - rootStart.y)/rootStart.x);
-        
-        CGAffineTransform skewTransform2 = CGAffineTransformMake(1.0f, skew.y,
-                                                                skew.x, 1.0f,
-                                                                0.0f, 0.0f );
-        CGAffineTransform newSkew = CGAffineTransformConcat(skewTransform, skewTransform2);
-        
-       
-        float skewXFinal = CC_RADIANS_TO_DEGREES(atanf(newSkew.c));
-        float skewYFinal = CC_RADIANS_TO_DEGREES(atanf(newSkew.b));
-
-        [appDelegate saveUndoStateWillChangeProperty:@"skew"];
-        transformScalingNode.skewX = skewXFinal;
-        transformScalingNode.skewY = skewYFinal;
-        [[InspectorController sharedController] refreshProperty:@"skew"];
-        
-        
-    }
-    else if (currentMouseTransform == kCCBTransformHandleAnchorPoint)
-    {
-        CGPoint localPos = [transformScalingNode convertToNodeSpace:pos];
-        CGPoint localDownPos = [transformScalingNode convertToNodeSpace:mouseDownPos];
-        
-        CGPoint deltaLocal = ccpSub(localPos, localDownPos);
-        CGPoint deltaAnchorPoint = ccp(deltaLocal.x / transformScalingNode.contentSizeInPoints.width, deltaLocal.y / transformScalingNode.contentSizeInPoints.height);
-        
-        [appDelegate saveUndoStateWillChangeProperty:@"anchorPoint"];
-        transformScalingNode.anchorPoint = ccpAdd(transformScalingNode.startAnchorPoint, deltaAnchorPoint);
-        [[InspectorController sharedController] refreshProperty:@"anchorPoint"];
-        
-        [self updateAnchorPointCompensation];
-    }
+//    else if (currentMouseTransform == kCCBTransformHandleSkew)
+//    {
+//        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.positionInPoints];
+//        CGPoint anchorInPoint = transformScalingNode.anchorPointInPoints;
+//        
+//        //Where did we start.
+//        CGPoint deltaStart = ccpSub(mouseDownPos, nodePos);
+//        
+//        //Where are we now.
+//        CGPoint deltaNew = ccpSub(pos,nodePos);
+//        
+//        
+//        //Delta New needs to be projected onto the vertex we're dragging as we're only effecting one skew at the moment.
+//       
+//        //First, unwind the current mouse down position to form an untransformed 'root' position: ie where on an untransformed image would you have clicked.
+//        //CGSize contentSizeInPoints = transformScalingNode.contentSizeInPoints;
+//        // CGPoint anchorPointInPoints = ccp( contentSizeInPoints.width * transformScalingNode.anchorPoint.x, contentSizeInPoints.height * transformScalingNode.anchorPoint.y );
+//        
+//       
+//        //T
+//        CGAffineTransform translateTranform = CGAffineTransformTranslate(CGAffineTransformIdentity, -anchorInPoint.x, -anchorInPoint.y);
+//        
+//        //S
+//        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(transformScalingNode.scaleX,transformScalingNode.scaleY);
+//        
+//        //K
+//        CGAffineTransform skewTransform = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(transformStartSkewY)),
+//                                                                tanf(CC_DEGREES_TO_RADIANS(transformStartSkewX)), 1.0f,
+//                                                                0.0f, 0.0f );
+//        
+//        //R
+//        CGAffineTransform rotationTransform = CGAffineTransformMakeRotation(CC_DEGREES_TO_RADIANS(-transformScalingNode.rotation));
+//        
+//        
+//        CGAffineTransform transform = CGAffineTransformConcat(CGAffineTransformConcat(CGAffineTransformConcat(translateTranform,skewTransform),scaleTransform), rotationTransform);
+//        
+//        //Root position == x,   xTKSR=mouseDown
+//        
+//        //We've got a root position now.cecream
+//        CGPoint rootStart = CGPointApplyAffineTransform(deltaStart,CGAffineTransformInvert(transform));
+//        CGPoint rootNew   = CGPointApplyAffineTransform(deltaNew,CGAffineTransformInvert(transform));
+//        
+//        
+//        //Project the delta mouse position onto
+//        rootStart   = [self projectOntoVertex:rootStart withContentSize:transformScalingNode.contentSizeInPoints alongAxis:skewSegment];
+//        rootNew     = [self projectOntoVertex:rootNew   withContentSize:transformScalingNode.contentSizeInPoints alongAxis:skewSegment];
+//        
+//        //Apply translation
+//        rootStart = CGPointApplyAffineTransform(rootStart,translateTranform);
+//        rootNew   = CGPointApplyAffineTransform(rootNew,translateTranform);
+//        CGPoint skew = CGPointMake((rootNew.x - rootStart.x)/rootStart.y,(rootNew.y - rootStart.y)/rootStart.x);
+//        
+//        CGAffineTransform skewTransform2 = CGAffineTransformMake(1.0f, skew.y,
+//                                                                skew.x, 1.0f,
+//                                                                0.0f, 0.0f );
+//        CGAffineTransform newSkew = CGAffineTransformConcat(skewTransform, skewTransform2);
+//        
+//       
+//        float skewXFinal = CC_RADIANS_TO_DEGREES(atanf(newSkew.c));
+//        float skewYFinal = CC_RADIANS_TO_DEGREES(atanf(newSkew.b));
+//
+//        [appDelegate saveUndoStateWillChangeProperty:@"skew"];
+//        transformScalingNode.skewX = skewXFinal;
+//        transformScalingNode.skewY = skewYFinal;
+//        [[InspectorController sharedController] refreshProperty:@"skew"];
+//        
+//        
+//    }
+//    else if (currentMouseTransform == kCCBTransformHandleAnchorPoint)
+//    {
+//        CGPoint localPos = [transformScalingNode convertToNodeSpace:pos];
+//        CGPoint localDownPos = [transformScalingNode convertToNodeSpace:mouseDownPos];
+//        
+//        CGPoint deltaLocal = ccpSub(localPos, localDownPos);
+//        CGPoint deltaAnchorPoint = ccp(deltaLocal.x / transformScalingNode.contentSizeInPoints.width, deltaLocal.y / transformScalingNode.contentSizeInPoints.height);
+//        
+//        [appDelegate saveUndoStateWillChangeProperty:@"anchorPoint"];
+//        transformScalingNode.anchorPoint = ccpAdd(transformScalingNode.startAnchorPoint, deltaAnchorPoint);
+//        [[InspectorController sharedController] refreshProperty:@"anchorPoint"];
+//        
+//        [self updateAnchorPointCompensation];
+//    }
     else if (isPanning)
     {
         CGPoint delta = ccpSub(pos, mouseDownPos);
@@ -1834,17 +1834,17 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             propName = @"rotation";
             type = kCCBKeyframeTypeDegrees;
         }
-        else if (currentMouseTransform == kCCBTransformHandleScale)
-        {
-            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
-            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
-            value = [NSArray arrayWithObjects:
-                     [NSNumber numberWithFloat:x],
-                     [NSNumber numberWithFloat:y],
-                     nil];
-            propName = @"scale";
-            type = kCCBKeyframeTypeScaleLock;
-        }
+//        else if (currentMouseTransform == kCCBTransformHandleScale)
+//        {
+//            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
+//            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
+//            value = [NSArray arrayWithObjects:
+//                     [NSNumber numberWithFloat:x],
+//                     [NSNumber numberWithFloat:y],
+//                     nil];
+//            propName = @"scale";
+//            type = kCCBKeyframeTypeScaleLock;
+//        }
         else if (currentMouseTransform == kCCBTransformHandleMove)
         {
             CGPoint pt = NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:@"position"]);
@@ -1855,18 +1855,18 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             propName = @"position";
             type = kCCBKeyframeTypePosition;
         }
-        else if( currentMouseTransform == kCCBTransformHandleSkew)
-        {
-            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"skew"];
-            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"skew"];
-            value = [NSArray arrayWithObjects:
-                     [NSNumber numberWithFloat:x],
-                     [NSNumber numberWithFloat:y],
-                     nil];
-
-            propName = @"skew";
-            type = kCCBKeyframeTypeFloatXY;
-        }
+//        else if( currentMouseTransform == kCCBTransformHandleSkew)
+//        {
+//            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"skew"];
+//            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"skew"];
+//            value = [NSArray arrayWithObjects:
+//                     [NSNumber numberWithFloat:x],
+//                     [NSNumber numberWithFloat:y],
+//                     nil];
+//
+//            propName = @"skew";
+//            type = kCCBKeyframeTypeFloatXY;
+//        }
         
         if (value)
         {
@@ -1991,13 +1991,13 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     {
         [[NSCursor closedHandCursor] push];
     }
-    else if(currentTool == kCCBToolAnchor)
-    {
-        NSImage * image = [NSImage imageNamed:@"select-crosshair.png"];
-        CGPoint centerPoint = CGPointMake(image.size.width/2, image.size.height/2);
-        NSCursor * cursor =  [[NSCursor alloc] initWithImage:image hotSpot:centerPoint];
-        [cursor push];
-    }
+//    else if(currentTool == kCCBToolAnchor)
+//    {
+//        NSImage * image = [NSImage imageNamed:@"select-crosshair.png"];
+//        CGPoint centerPoint = CGPointMake(image.size.width/2, image.size.height/2);
+//        NSCursor * cursor =  [[NSCursor alloc] initWithImage:image hotSpot:centerPoint];
+//        [cursor push];
+//    }
     else if (currentTool == kCCBToolRotate)
     {
         NSImage * image = [NSImage imageNamed:@"select-rotation.png"];
@@ -2008,32 +2008,32 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         NSCursor * cursor =  [[NSCursor alloc] initWithImage:img hotSpot:centerPoint];
         [cursor push];
     }
-    else if(currentTool == kCCBToolScale)
-    {
-        NSImage * image = [NSImage imageNamed:@"select-scale.png"];
-        
-        float rotation = atan2f(cornerOrientation.y, cornerOrientation.x) + M_PI/2.0f;
-        NSImage *img =[self rotateImage:image rotation:rotation];
-        CGPoint centerPoint = CGPointMake(img.size.width/2, img.size.height/2);
-        NSCursor * cursor =  [[NSCursor alloc] initWithImage:img hotSpot:centerPoint];
-        [cursor push];
-        
-    }
-    else if (currentTool == kCCBToolSkew)
-    {
-        float rotation = atan2f(skewSegmentOrientation.y, skewSegmentOrientation.x);
-
-        //Rotate the Skew image.
-        NSImage * image = [NSImage imageNamed:@"select-skew.png"];
-        
-        NSImage *img =[self rotateImage:image rotation:rotation];
-
-        CGPoint centerPoint = CGPointMake(img.size.width/2, img.size.height/2);
-
-        NSCursor * cursor =  [[NSCursor alloc] initWithImage:img hotSpot:centerPoint];
-        [cursor push];
-        
-    }
+//    else if(currentTool == kCCBToolScale)
+//    {
+//        NSImage * image = [NSImage imageNamed:@"select-scale.png"];
+//        
+//        float rotation = atan2f(cornerOrientation.y, cornerOrientation.x) + M_PI/2.0f;
+//        NSImage *img =[self rotateImage:image rotation:rotation];
+//        CGPoint centerPoint = CGPointMake(img.size.width/2, img.size.height/2);
+//        NSCursor * cursor =  [[NSCursor alloc] initWithImage:img hotSpot:centerPoint];
+//        [cursor push];
+//        
+//    }
+//    else if (currentTool == kCCBToolSkew)
+//    {
+//        float rotation = atan2f(skewSegmentOrientation.y, skewSegmentOrientation.x);
+//
+//        //Rotate the Skew image.
+//        NSImage * image = [NSImage imageNamed:@"select-skew.png"];
+//        
+//        NSImage *img =[self rotateImage:image rotation:rotation];
+//
+//        CGPoint centerPoint = CGPointMake(img.size.width/2, img.size.height/2);
+//
+//        NSCursor * cursor =  [[NSCursor alloc] initWithImage:img hotSpot:centerPoint];
+//        [cursor push];
+//        
+//    }
     else if(currentTool == kCCBToolTranslate)
     {
         NSImage * image = [NSImage imageNamed:@"select-move.png"];
@@ -2051,8 +2051,8 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     if (isMouseTransforming || isPanning || currentMouseTransform != kCCBTransformHandleNone) return;
     if (!appDelegate.hasOpenedDocument) return;
     
-    int dx = [theEvent deltaX]*4;
-    int dy = -[theEvent deltaY]*4;
+    int dx = [theEvent deltaX]*8;
+    int dy = -[theEvent deltaY]*8;
     
     scrollOffset.x = scrollOffset.x+dx;
     scrollOffset.y = scrollOffset.y+dy;

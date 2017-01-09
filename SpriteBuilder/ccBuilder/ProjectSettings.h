@@ -29,11 +29,17 @@
 #define kCCBProjectSettingsVersion 1
 #define kCCBDefaultExportPlugIn @"ccbi"
 
-typedef enum
-{
-    kCCBDesignTargetFlexible = 0,
-    kCCBDesignTargetFixed = 1,
-} CCBDesignTarget;
+
+typedef enum {
+    kCCBSceneScaleTypeDEFAULT  = -1,
+    kCCBSceneScaleTypeNONE     = 0,
+    kCCBSceneScaleTypeCUSTOM   = 1,
+    kCCBSceneScaleTypeMINSIZE  = 2,
+    kCCBSceneScaleTypeMAXSIZE  = 3,
+    kCCBSceneScaleTypeMINSCALE = 4,
+    kCCBSceneScaleTypeMAXSCALE = 5,
+} CCBSceneScaleType;
+
 
 typedef enum
 {
@@ -41,17 +47,6 @@ typedef enum
     kCCBOrientationPortrait = 1,
 } CCBOrientation;
 
-typedef NS_ENUM(int8_t, CCBTargetEngine)
-{
-	CCBTargetEngineCocos2d = 0,
-	CCBTargetEngineSpriteKit = 1,
-};
-
-typedef NS_ENUM(int8_t, CCBProgrammingLanguage)
-{
-    CCBProgrammingLanguageObjectiveC = 0,
-    CCBProgrammingLanguageSwift = 1,
-};
 
 @class RMResource;
 @class CCBWarnings;
@@ -70,7 +65,6 @@ typedef NS_ENUM(int8_t, CCBProgrammingLanguage)
 @property (nonatomic, readonly) NSString* projectPathHashed;
 @property (nonatomic, strong) NSMutableArray* resourcePaths;
 
-@property (nonatomic, assign) BOOL publishToZipFile;
 @property (nonatomic, assign) BOOL onlyPublishCCBs;
 @property (nonatomic, readonly) NSArray* absoluteResourcePaths;
 @property (nonatomic, copy) NSString* exporter;
@@ -86,16 +80,13 @@ typedef NS_ENUM(int8_t, CCBProgrammingLanguage)
 
 @property (nonatomic, readonly) NSMutableArray* platformsSettings;
 
-// *** Temporary property, do not persist ***
-@property (nonatomic) BOOL canUpdateCocos2D;
 
-@property (nonatomic, strong) NSMutableArray *cocos2dUpdateIgnoredVersions;
 @property (nonatomic) BOOL excludedFromPackageMigration;
 
 @property (nonatomic, copy) NSString* versionStr;
 @property (nonatomic, assign) BOOL needRepublish;
 
-@property (nonatomic, assign) int designTarget;
+@property (nonatomic, assign) int sceneScaleType;
 @property (nonatomic, assign) int defaultOrientation;
 @property (nonatomic, assign) int deviceScaling;
 @property (nonatomic, assign) float tabletPositionScaleFactor;
