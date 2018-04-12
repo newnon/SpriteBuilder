@@ -847,9 +847,21 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         }
         return YES;
     }
+    NodeInfo* nodeInfo = transformSizeNode.userObject;
+    NSDictionary* propInfo = [nodeInfo.plugIn.nodePropertiesDict objectForKey:@"contentSize"];
+    BOOL disabledContentSize = [transformSizeNode shouldDisableProperty:@"contentSize"] || [[propInfo objectForKey:@"readOnly"] boolValue];
+    bool widthLock = disabledContentSize || [nodeInfo.extraProps[@"contentSizeLockedWidth"] boolValue];
+    bool heightLock = disabledContentSize || [nodeInfo.extraProps[@"contentSizeLockedHeight"] boolValue];
     
     for (int i = 0; i < 4; i++)
     {
+        //skip size cursor if locked
+        //this fixes dragging of small(like 40x40px) Sprite's and Node's at the corners
+        //4 = left, 5 = right
+        if (widthLock && (cornerIndex == 4 || cornerIndex == 6)) continue;
+        //5 = bottom, 7 = top
+        if (heightLock && (cornerIndex == 5 || cornerIndex == 7)) continue;
+
         CGPoint p1 = points[i % 4 + 4];
         CGPoint p2 = points[(i + 1) % 4 + 4];
         CGPoint p3 = points[(i + 2) % 4 + 4];
