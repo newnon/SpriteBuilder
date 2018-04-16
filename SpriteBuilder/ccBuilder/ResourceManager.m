@@ -99,12 +99,14 @@
     self = [super init];
     if (!self) return NULL;
     
+    disableUpdate = NO;
+    
     directories = [[NSMutableDictionary alloc] init];
     activeDirectories = [[NSMutableArray alloc] init];
     if([AppDelegate appDelegate])
     {
         pathWatcher = [[SCEvents alloc] init];
-        pathWatcher.ignoreEventsFromSubDirs = YES;
+        pathWatcher.ignoreEventsFromSubDirs = NO;
         pathWatcher.delegate = self;
     }
     else
@@ -125,10 +127,10 @@
 
 - (NSArray*) getAddedDirs
 {
-    NSMutableArray* arr = [NSMutableArray arrayWithCapacity:[directories count]];
-    for (NSString* dirPath in directories)
+    NSMutableArray* arr = [NSMutableArray arrayWithCapacity:[activeDirectories count]];
+    for (RMDirectory* directory in activeDirectories)
     {        
-        [arr addObject:dirPath];
+        [arr addObject:directory.dirPath];
     }
     return arr;
 }
@@ -510,8 +512,9 @@
         [dir.models sortUsingSelector:@selector(compare:)];
     }
     
-    if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
-    if (needsUpdate && [AppDelegate appDelegate])
+    if (resourcesChanged && !disableUpdate)
+        [self notifyResourceObserversResourceListUpdated];
+    if (needsUpdate && !disableUpdate && [AppDelegate appDelegate])
     {
         [[AppDelegate appDelegate] reloadResources];
     }
@@ -519,6 +522,7 @@
 
 - (void)setActiveDirectoriesWithFullReset:(NSArray *)newActiveDirectories
 {
+    disableUpdate = YES;
     [self removeAllDirectories];
 
     for (NSString* dir in newActiveDirectories)
@@ -527,6 +531,7 @@
     }
 
     [self setActiveDirectories:newActiveDirectories];
+    disableUpdate = NO;
 }
 
 - (void) addDirectory:(NSString *)dirPath
@@ -553,8 +558,6 @@
         dir.count = 1;
         dir.dirPath = dirPath;
         directories[dirPath] = dir;
-        
-        [self updatedWatchedPaths];
     }
     
     [self updateResourcesForPath:dirPath];
@@ -586,7 +589,6 @@
         if (!dir.count)
         {
             [directories removeObjectForKey:dirPath];
-            [self updatedWatchedPaths];
         }
     }
 }
@@ -612,6 +614,7 @@
         }
     }
     
+    [self updatedWatchedPaths];
     [self notifyResourceObserversResourceListUpdated];
 }
 

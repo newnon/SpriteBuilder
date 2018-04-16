@@ -49,6 +49,7 @@
     NSArray* systemFontList;
     
     BOOL tooManyDirectoriesAdded;
+    BOOL disableUpdate;
 }
 
 + (ResourceManager*) sharedManager;
