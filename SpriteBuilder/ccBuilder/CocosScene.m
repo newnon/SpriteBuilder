@@ -263,6 +263,11 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             }
         }
         
+        [borderBottom setOpacity:1.0f];
+        [borderTop setOpacity:1.0f];
+        [borderLeft setOpacity:1.0f];
+        [borderRight setOpacity:1.0f];
+        
         borderLayer.visible = YES;
     }
     else if (type == kCCBBorderTransparent)
@@ -360,6 +365,11 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     }
     NSAssert(color != nil, @"No bg color");
     bgLayer.color = color;
+    
+    [borderBottom setColor:color];
+    [borderTop setColor:color];
+    [borderLeft setColor:color];
+    [borderRight setColor:color];
 }
 
 - (void) setupDefaultNodes
