@@ -19,6 +19,10 @@
 	<string>CocosBuilder</string>
 	<key>fileVersion</key>
 	<integer>5</integer>
+	<key>gridOffsetHeight</key>
+	<integer>0</integer>
+	<key>gridOffsetWidth</key>
+	<integer>0</integer>
 	<key>gridspaceHeight</key>
 	<integer>64</integer>
 	<key>gridspaceWidth</key>

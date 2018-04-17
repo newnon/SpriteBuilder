@@ -29,14 +29,18 @@
 	<key>platformsSettings</key>
 	<array>
 		<dict>
+			<key>compressedImageAnySize</key>
+			<false/>
 			<key>compressedImageCCZCompression</key>
 			<true/>
 			<key>compressedImageDither</key>
 			<true/>
 			<key>compressedImageFormat</key>
-			<integer>5</integer>
+			<integer>0</integer>
 			<key>compressedImageQuality</key>
 			<integer>75</integer>
+			<key>compressedNoAlphaImageAnySize</key>
+			<false/>
 			<key>compressedNoAlphaImageCCZCompression</key>
 			<true/>
 			<key>compressedNoAlphaImageDither</key>
@@ -45,6 +49,8 @@
 			<integer>4</integer>
 			<key>compressedNoAlphaImageQuality</key>
 			<integer>75</integer>
+			<key>customImageAnySize</key>
+			<false/>
 			<key>customImageCCZCompression</key>
 			<true/>
 			<key>customImageDither</key>
@@ -94,6 +100,8 @@
 			<true/>
 			<key>publishSound</key>
 			<true/>
+			<key>uncompressedImageAnySize</key>
+			<false/>
 			<key>uncompressedImageCCZCompression</key>
 			<true/>
 			<key>uncompressedImageDither</key>
@@ -104,6 +112,8 @@
 			<integer>75</integer>
 		</dict>
 		<dict>
+			<key>compressedImageAnySize</key>
+			<false/>
 			<key>compressedImageCCZCompression</key>
 			<true/>
 			<key>compressedImageDither</key>
@@ -112,6 +122,8 @@
 			<integer>0</integer>
 			<key>compressedImageQuality</key>
 			<integer>75</integer>
+			<key>compressedNoAlphaImageAnySize</key>
+			<false/>
 			<key>compressedNoAlphaImageCCZCompression</key>
 			<true/>
 			<key>compressedNoAlphaImageDither</key>
@@ -120,6 +132,8 @@
 			<integer>4</integer>
 			<key>compressedNoAlphaImageQuality</key>
 			<integer>75</integer>
+			<key>customImageAnySize</key>
+			<false/>
 			<key>customImageCCZCompression</key>
 			<true/>
 			<key>customImageDither</key>
@@ -169,6 +183,8 @@
 			<true/>
 			<key>publishSound</key>
 			<true/>
+			<key>uncompressedImageAnySize</key>
+			<false/>
 			<key>uncompressedImageCCZCompression</key>
 			<true/>
 			<key>uncompressedImageDither</key>
@@ -193,6 +209,6 @@
 	<key>sceneScaleType</key>
 	<integer>3</integer>
 	<key>versionStr</key>
-	<string>1.5.25</string>
+	<string>1.6.5</string>
 </dict>
 </plist>
