@@ -1927,7 +1927,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         CGAffineTransform translateTranform = CGAffineTransformTranslate(CGAffineTransformIdentity, -anchorPointInPoints.x, -anchorPointInPoints.y);
 
         //S
-        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(transformStartScaleX, transformStartScaleY);
+        CGAffineTransform scaleTransform = CGAffineTransformMakeScale(1.0f, 1.0f);
 
         //K
         CGAffineTransform skewTransform = CGAffineTransformMake(1.0f, tanf(CC_DEGREES_TO_RADIANS(transformSizeNode.skewY)),
@@ -1964,11 +1964,11 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         }
 
         // Calculate new scale
-        float xScaleNew = scale.x * vertexScaler.x + transformStartScaleX * (1.0f - vertexScaler.x);
-        float yScaleNew = scale.y * vertexScaler.y + transformStartScaleY * (1.0f - vertexScaler.y);
+        float xScaleNew = scale.x * vertexScaler.x + (1.0f - vertexScaler.x);
+        float yScaleNew = scale.y * vertexScaler.y + (1.0f - vertexScaler.y);
 
 
-        if ([event modifierFlags] & NSShiftKeyMask)
+        if ([event modifierFlags] & NSShiftKeyMask && cornerIndex <4)
         {
             // Use the smallest scale composit
             if (fabs(xScaleNew) < fabs(yScaleNew))
@@ -1983,10 +1983,6 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         
         if (([event modifierFlags] & NSShiftKeyMask) && ([event modifierFlags] & NSAlternateKeyMask)) {
             [self setAnchorPoint:ccp(0.5,0.5) forNode:transformSizeNode];
-        } else {
-            if ([event modifierFlags] & NSShiftKeyMask) {
-                [self setAnchorPoint:anchorBefore forNode:transformSizeNode];
-            }
         }
         
         transformSizeNode.contentSizeInPoints = CGSizeMake(widthLock ? transformContentSize.width : transformContentSize.width * xScaleNew,
