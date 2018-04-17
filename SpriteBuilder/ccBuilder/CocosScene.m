@@ -2265,10 +2265,11 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     else if(currentTool == kCCBToolSize)
     {
         bool showCursor = YES;
-        NodeInfo *nodeInfo = transformSizeNode.userObject ? transformSizeNode.userObject : appDelegate.selectedNode.userObject;
+        CCNode* currentNode = transformSizeNode ? transformSizeNode : appDelegate.selectedNode;
+        NodeInfo *nodeInfo = currentNode.userObject;
         if (nodeInfo) {
             //NSDictionary* propInfo = [nodeInfo.plugIn.nodePropertiesDict objectForKey:@"contentSize"];
-            BOOL disabledContentSize = CGSizeEqualToSize(transformSizeNode.contentSizeInPoints, CGSizeZero);
+            BOOL disabledContentSize = CGSizeEqualToSize(currentNode.contentSizeInPoints, CGSizeZero);
             
             //disable size cursor for corners of Sprites
             showCursor = !disabledContentSize;
