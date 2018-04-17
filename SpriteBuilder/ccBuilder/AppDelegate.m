@@ -4043,7 +4043,6 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     for (NSMenuItem *item in menuItemStageColor.submenu.itemArray)
     {
         item.state = NSOffState;
-        item.enabled = YES;
     }
     
     [menuItemStageColor.submenu itemWithTag: color].state = NSOnState;
@@ -4090,10 +4089,6 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     int finalColor = (mainStageColor == -1) ? stageColor : mainStageColor;
     [cs setStageColor: finalColor forDocDimensionsType: currentDocument.docDimensionsType];
     [menuItemMainStageColor.submenu itemWithTag: mainStageColor].state = NSOnState;
-    
-    for (NSMenuItem *item in menuItemStageColor.submenu.itemArray) {
-        item.enabled = mainStageColor == -1 ? YES : NO;
-    }
 }
 
 - (IBAction) menuZoomIn:(id)sender
