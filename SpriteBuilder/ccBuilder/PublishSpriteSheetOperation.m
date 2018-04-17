@@ -139,6 +139,7 @@ static NSMutableSet *__spriteSheetPreviewsGenerated;
     _packer.compress = [_platformSettings imageCCZCompression:self.format];
     _packer.dither = [_platformSettings imageDither:self.format];
     _packer.imageQuality = [_platformSettings imageQuality:self.format];
+    _packer.pot = [_platformSettings imagePOT:self.format];
 }
 
 - (void)setTextureMaxSize

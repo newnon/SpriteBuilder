@@ -1,5 +1,5 @@
 /** @file MaxRectsBinPack.cpp
-	@author Jukka Jylänki
+	@author Jukka Jylï¿¤nki
 
 	@brief Implements different bin packer algorithms that use the MAXRECTS data structure.
 
@@ -76,28 +76,29 @@ TPRect MaxRectsBinPack::Insert(int width, int height, FreeRectChoiceHeuristic me
 	return newNode;
 }
 
-void MaxRectsBinPack::Insert(std::vector<TPRectSize> &rects, std::vector<TPRect> &dst, FreeRectChoiceHeuristic method)
+void MaxRectsBinPack::Insert(const std::vector<TPRectSize> &inrects, std::vector<TPRect> &dst, FreeRectChoiceHeuristic method)
 {
+    std::vector<TPRectSize> rects = inrects;
 	dst.clear();
 
-	while(rects.size() > 0)
+	for(int j = 0; j < rects.size(); ++j)
 	{
 		int bestScore1 = std::numeric_limits<int>::max();
 		int bestScore2 = std::numeric_limits<int>::max();
 		int bestRectIndex = -1;
 		TPRect bestNode;
 
-		for(size_t i = 0; i < rects.size(); ++i)
+		for(size_t i = j; i < rects.size(); ++i)
 		{
 			int score1;
 			int score2;
-            if(rects[i].width == 0 && rects[i].height == 0)
-            {
-                bestRectIndex = rects[i].idx;
-                TPRect newNode = {0,0,0,0,rects[i].idx,false};
-                bestNode = newNode;
-                break;
-            }
+			if(rects[i].width == 0 && rects[i].height == 0)
+			{
+				bestRectIndex = rects[i].idx;
+				TPRect newNode = {0,0,0,0,rects[i].idx,false};
+				bestNode = newNode;
+ 				break;
+			}
 			TPRect newNode = ScoreRect(rects[i].width, rects[i].height, method, score1, score2, rects[i].idx);
 
 			if (score1 < bestScore1 || (score1 == bestScore1 && score2 < bestScore2))
@@ -113,8 +114,8 @@ void MaxRectsBinPack::Insert(std::vector<TPRectSize> &rects, std::vector<TPRect>
 			return;
 
 		PlaceRect(bestNode);
-        dst.push_back(bestNode);
-		rects.erase(rects.begin() + bestRectIndex);
+		dst.push_back(bestNode);
+		std::swap(rects[j], rects[bestRectIndex]);
 	}
 }
 

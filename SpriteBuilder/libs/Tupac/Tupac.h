@@ -46,6 +46,7 @@
 @property(nonatomic,assign) BOOL compress;
 @property(nonatomic,assign) BOOL trim;
 @property(nonatomic,assign) BOOL optimize;
+@property(nonatomic,assign) BOOL pot;
 @property(nonatomic,readonly) NSString* errorMessage;
 
 + (Tupac*) tupac;

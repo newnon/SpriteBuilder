@@ -94,6 +94,7 @@ typedef struct _PVRTexHeader
         self.padding = 1;
         self.trim = YES;
         self.extrude = 1;
+        self.pot = YES;
     }
     return self;
 }
@@ -223,6 +224,57 @@ typedef struct _PVRTexHeader
     CGDataProviderRef dataProvider2 = CGImageGetDataProvider(image2);
     NSData *data2 = (NSData*)CFBridgingRelease(CGDataProviderCopyData(dataProvider2));
     return [data1 isEqualToData:data2];
+}
+
+static int reduceHorizontalSize(const std::vector<TPRectSize> &inRects, int outW, int outH, int method, int numImages, std::vector<TPRect> &tempOutRects)
+{
+    int minOutW = outW/2;
+    int maxOutW = outW;
+    int curOutW = (minOutW + maxOutW) / 2;
+    int lastOutW = outW;
+    while (curOutW != lastOutW) {
+        MaxRectsBinPack tempBin(curOutW, outH);
+        tempOutRects.reserve(inRects.size());
+        tempBin.Insert(inRects, tempOutRects, (MaxRectsBinPack::FreeRectChoiceHeuristic)method);
+        lastOutW = curOutW;
+        if(numImages == (int)tempOutRects.size())
+        {
+            maxOutW = curOutW;
+            curOutW = (minOutW + maxOutW + 1) / 2;
+        }
+        else
+        {
+            minOutW = curOutW;
+            curOutW = (minOutW + maxOutW + 1) / 2;
+        }
+    }
+    //outRects = tempOutRects;
+    return curOutW;
+}
+
+static int reduceVerticalSize(const std::vector<TPRectSize> &inRects, int outW, int outH, int method, int numImages, std::vector<TPRect> &tempOutRects)
+{
+    int minOutH = outH/2;
+    int maxOutH = outH;
+    int curOutH = (minOutH + maxOutH) / 2;
+    int lastOutH = outH;
+    while (curOutH != lastOutH) {
+        MaxRectsBinPack tempBin(outW, curOutH);
+        tempBin.Insert(inRects, tempOutRects, (MaxRectsBinPack::FreeRectChoiceHeuristic)method);
+        lastOutH = curOutH;
+        if(numImages == (int)tempOutRects.size())
+        {
+            maxOutH = curOutH;
+            curOutH = (minOutH + maxOutH + 1) / 2;
+        }
+        else
+        {
+            minOutH = curOutH;
+            curOutH = (minOutH + maxOutH + 1) / 2;
+        }
+    }
+    //outRects = tempOutRects;
+    return curOutH;
 }
 
 - (NSArray *)createTextureAtlas
@@ -357,18 +409,38 @@ typedef struct _PVRTexHeader
     
     BOOL globalPackingError = YES;
     
-    for(int i=MaxRectsBinPack::RectBestShortSideFit;i<=MaxRectsBinPack::RectContactPointRule;++i)
+    std::vector<TPRectSize> inRects;
+    
+    int numImages = 0;
+    for (NSDictionary* imageInfo in imageInfos)
     {
+        NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
+        
+        inRects.push_back(TPRectSize());
+        inRects[numImages].width = trimRect.size.width + (self.padding + self.extrude) * 2;
+        inRects[numImages].height = trimRect.size.height + (self.padding + self.extrude) * 2;
+        inRects[numImages].idx = numImages;
+        
+        numImages++;
+    }
+    
+    int packMethods[] = {MaxRectsBinPack::RectBestShortSideFit, MaxRectsBinPack::RectBestLongSideFit, MaxRectsBinPack::RectBestAreaFit, MaxRectsBinPack::RectBottomLeftRule};
+    
+    for(int k=0; k<=sizeof(packMethods)/sizeof(*packMethods); ++k)
+    {
+        int i = packMethods[k];
         BOOL allFitted = NO;
         
         // Pack using max rects
         int outW = maxSideLen;
         int outH = 8;
+        BOOL pot = _pot;
         BOOL makeSquare = NO;
         if (self.imageFormat == kFCImageFormatPVRTC_2BPP || self.imageFormat == kFCImageFormatPVRTC_4BPP)
         {
             makeSquare = YES;
             outH = outW;
+            pot = YES;
         }
         
         BOOL packingError = NO;
@@ -378,26 +450,32 @@ typedef struct _PVRTexHeader
         {
             MaxRectsBinPack bin(outW, outH);
             
-            std::vector<TPRectSize> inRects;
-            
-            int numImages = 0;
-            for (NSDictionary* imageInfo in imageInfos)
-            {
-                NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
-                
-                inRects.push_back(TPRectSize());
-                inRects[numImages].width = trimRect.size.width + (self.padding + self.extrude) * 2;
-                inRects[numImages].height = trimRect.size.height + (self.padding + self.extrude) * 2;
-                inRects[numImages].idx = numImages;
-                
-                numImages++;
-            }
-            
             bin.Insert(inRects, outRects, (MaxRectsBinPack::FreeRectChoiceHeuristic)i);
             
             if (numImages == (int)outRects.size())
             {
                 allFitted = YES;
+                if(!pot)
+                {
+                    std::vector<TPRect> tempOutRects;
+                    tempOutRects.reserve(inRects.size());
+                    
+                    if(outH >= outW)
+                    {
+                        outH = reduceVerticalSize(inRects, outW, outH, i, numImages, tempOutRects);
+                        outRects = tempOutRects;
+                        outW = reduceHorizontalSize(inRects, outW, outH, i, numImages, tempOutRects);
+                        outRects = tempOutRects;
+                    }
+                    else
+                    {
+                        outW = reduceHorizontalSize(inRects, outW, outH, i, numImages, tempOutRects);
+                        outRects = tempOutRects;
+                        outH = reduceVerticalSize(inRects, outW, outH, i, numImages, tempOutRects);
+                        outRects = tempOutRects;
+                    }
+                
+                }
             }
             else
             {
@@ -420,8 +498,9 @@ typedef struct _PVRTexHeader
         }
         if(outRects.size() >= bestOutRects.size())
         {
-            if(std::max(outW, outH) <= std::max(bestOutW, bestOutH) && std::max(outW, outH) <= std::max(bestOutW, bestOutH))
+            if((long long)outW * outH < (long long)bestOutW * bestOutH)
             {
+                printf("best method %d \n", i);
                 if(allFitted)
                     globalPackingError = NO;
                 bestOutRects = outRects;

@@ -40,7 +40,7 @@ public:
 	/// @param rects The list of rectangles to insert. This vector will be destroyed in the process.
 	/// @param dst [out] This list will contain the packed rectangles. The indices will not correspond to that of rects.
 	/// @param method The rectangle placement rule to use when packing.
-	void Insert(std::vector<TPRectSize> &rects, std::vector<TPRect> &dst, FreeRectChoiceHeuristic method);
+	void Insert(const std::vector<TPRectSize> &rects, std::vector<TPRect> &dst, FreeRectChoiceHeuristic method);
 
 	/// Inserts a single rectangle into the bin, possibly rotated.
 	TPRect Insert(int width, int height, FreeRectChoiceHeuristic method);

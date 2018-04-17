@@ -44,18 +44,25 @@ typedef enum {
 @property (nonatomic, assign) int compressedImageQuality;
 @property (nonatomic, assign) BOOL compressedImageCCZCompression;
 @property (nonatomic, assign) BOOL compressedImageDither;
+@property (nonatomic, assign) BOOL compressedImageAnySize;
+
 @property (nonatomic, assign) kFCImageFormat compressedNoAlphaImageFormat;
 @property (nonatomic, assign) int compressedNoAlphaImageQuality;
 @property (nonatomic, assign) BOOL compressedNoAlphaImageCCZCompression;
 @property (nonatomic, assign) BOOL compressedNoAlphaImageDither;
+@property (nonatomic, assign) BOOL compressedNoAlphaImageAnySize;
+
 @property (nonatomic, assign) kFCImageFormat uncompressedImageFormat;
 @property (nonatomic, assign) int uncompressedImageQuality;
 @property (nonatomic, assign) BOOL uncompressedImageCCZCompression;
 @property (nonatomic, assign) BOOL uncompressedImageDither;
+@property (nonatomic, assign) BOOL uncompressedImageAnySize;
+
 @property (nonatomic, assign) kFCImageFormat customImageFormat;
 @property (nonatomic, assign) int customImageQuality;
 @property (nonatomic, assign) BOOL customImageCCZCompression;
 @property (nonatomic, assign) BOOL customImageDither;
+@property (nonatomic, assign) BOOL customImageAnySize;
 
 @property (nonatomic, assign) BOOL publishSound;
 @property (nonatomic, assign) kFCSoundFormat effectFormat;
@@ -80,6 +87,7 @@ typedef enum {
 - (int) imageQuality:(int)type;
 - (BOOL) imageCCZCompression:(int)type;
 - (BOOL) imageDither:(int)type;
+- (BOOL) imagePOT:(int)type;
 
 - (kFCSoundFormat) soundFormat:(int)type;
 - (BOOL) soundStereo:(int)type;

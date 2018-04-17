@@ -83,6 +83,24 @@
 }
 @end
 
+@interface ImageFormatPOTEnabledTransformer: NSValueTransformer {}
+@end
+@implementation ImageFormatPOTEnabledTransformer
++ (Class)transformedValueClass { return [NSString class]; }
++ (BOOL)allowsReverseTransformation { return NO; }
+-(id)transformedValue:(id)value {
+    switch ([value intValue]) {
+        case kFCImageFormatOriginal:
+        case kFCImageFormatPVRTC_4BPP:
+        case kFCImageFormatPVRTC_2BPP:
+            return [NSNumber numberWithBool:NO];
+            
+        default:
+            return [NSNumber numberWithBool:YES];
+    }
+}
+@end
+
 @interface PacketPublish : NSObject
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) NSInteger publish;
@@ -156,21 +174,25 @@
     dict[@"compressedImageQuality"] = @(_compressedImageQuality);
     dict[@"compressedImageCCZCompression"] = @(_compressedImageCCZCompression);
     dict[@"compressedImageDither"] = @(_compressedImageDither);
+    dict[@"compressedImageAnySize"] = @(_compressedImageAnySize);
 
     dict[@"compressedNoAlphaImageFormat"] = @(_compressedNoAlphaImageFormat);
     dict[@"compressedNoAlphaImageQuality"] = @(_compressedNoAlphaImageQuality);
     dict[@"compressedNoAlphaImageCCZCompression"] = @(_compressedNoAlphaImageCCZCompression);
     dict[@"compressedNoAlphaImageDither"] = @(_compressedNoAlphaImageDither);
+    dict[@"compressedNoAlphaImageAnySize"] = @(_compressedNoAlphaImageAnySize);
     
     dict[@"uncompressedImageFormat"] = @(_uncompressedImageFormat);
     dict[@"uncompressedImageQuality"] = @(_uncompressedImageQuality);
     dict[@"uncompressedImageCCZCompression"] = @(_uncompressedImageCCZCompression);
     dict[@"uncompressedImageDither"] = @(_uncompressedImageDither);
+    dict[@"uncompressedImageAnySize"] = @(_uncompressedImageAnySize);
     
     dict[@"customImageFormat"] = @(_customImageFormat);
     dict[@"customImageQuality"] = @(_customImageQuality);
     dict[@"customImageCCZCompression"] = @(_customImageCCZCompression);
     dict[@"customImageDither"] = @(_customImageDither);
+    dict[@"customImageAnySize"] = @(_customImageAnySize);
     
     dict[@"packets"] = _packets;
     
@@ -212,21 +234,25 @@
     _compressedImageQuality = 75;
     _compressedImageCCZCompression = YES;
     _compressedImageDither = YES;
+    _compressedImageAnySize = NO;
     
     _compressedNoAlphaImageFormat = kFCImageFormatPNG;
     _compressedNoAlphaImageQuality = 75;
     _compressedNoAlphaImageCCZCompression = YES;
     _compressedNoAlphaImageDither = YES;
+    _compressedNoAlphaImageAnySize = NO;
     
     _uncompressedImageFormat = kFCImageFormatPNG;
     _uncompressedImageQuality = 75;
     _uncompressedImageCCZCompression = YES;
     _uncompressedImageDither = YES;
+    _uncompressedImageAnySize = NO;
     
     _customImageFormat = kFCImageFormatPNG;
     _customImageQuality = 75;
     _customImageCCZCompression = YES;
     _customImageDither = YES;
+    _customImageAnySize = NO;
     return self;
 }
 
@@ -264,21 +290,25 @@
     self.compressedImageQuality = [[dict objectForKey:@"compressedImageQuality"] intValue];
     self.compressedImageCCZCompression = [[dict objectForKey:@"compressedImageCCZCompression"] intValue];
     self.compressedImageDither = [[dict objectForKey:@"compressedImageDither"] intValue];
+    self.compressedImageAnySize = [[dict objectForKey:@"compressedImageAnySize"] intValue];
     
     self.compressedNoAlphaImageFormat = [[dict objectForKey:@"compressedNoAlphaImageFormat"] intValue];
     self.compressedNoAlphaImageQuality = [[dict objectForKey:@"compressedNoAlphaImageQuality"] intValue];
     self.compressedNoAlphaImageCCZCompression = [[dict objectForKey:@"compressedNoAlphaImageCCZCompression"] intValue];
     self.compressedNoAlphaImageDither = [[dict objectForKey:@"compressedNoAlphaImageDither"] intValue];
+    self.compressedNoAlphaImageAnySize = [[dict objectForKey:@"compressedNoAlphaImageAnySize"] intValue];
     
     self.uncompressedImageFormat = [[dict objectForKey:@"uncompressedImageFormat"] intValue];
     self.uncompressedImageQuality = [[dict objectForKey:@"uncompressedImageQuality"] intValue];
     self.uncompressedImageCCZCompression = [[dict objectForKey:@"uncompressedImageCCZCompression"] intValue];
     self.uncompressedImageDither = [[dict objectForKey:@"uncompressedImageDither"] intValue];
+    self.uncompressedImageAnySize = [[dict objectForKey:@"uncompressedImageAnySize"] intValue];
     
     self.customImageFormat = [[dict objectForKey:@"customImageFormat"] intValue];
     self.customImageQuality = [[dict objectForKey:@"customImageQuality"] intValue];
     self.customImageCCZCompression = [[dict objectForKey:@"customImageCCZCompression"] intValue];
     self.customImageDither = [[dict objectForKey:@"customImageDither"] intValue];
+    self.customImageAnySize = [[dict objectForKey:@"customImageAnySize"] intValue];
     
     id packets = [dict objectForKey:@"packets"];
     if(packets && [packets isKindOfClass:[NSArray class]])
@@ -400,6 +430,25 @@
     }
 }
 
+- (BOOL) imagePOT:(int)type
+{
+    switch (type) {
+        case kPlatformSettingsImageTypesCompressed:
+            return !_compressedImageAnySize;
+            
+        case kPlatformSettingsImageTypesCompressedWOAlpha:
+            return !_compressedNoAlphaImageAnySize;
+            
+        case kPlatformSettingsImageTypesUncompressed:
+            return !_uncompressedImageAnySize;
+            
+        case kPlatformSettingsImageTypesCustom:
+            return !_customImageAnySize;
+            
+        default:
+            return YES;
+    }
+}
 
 - (kFCSoundFormat) soundFormat:(int)type
 {
