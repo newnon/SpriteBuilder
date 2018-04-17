@@ -5096,6 +5096,8 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
         [self checkAutoSave];
     }
     
+    [self.projectSettings store];
+    
     [window saveMainWindowPanelsVisibility];
     [self saveOpenProjectPathToDefaults];
 
