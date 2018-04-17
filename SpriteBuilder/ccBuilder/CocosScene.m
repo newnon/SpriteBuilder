@@ -689,7 +689,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
                     }
                 }
 
-                if(!isContentSizeZero &&!(overTypeField & kCCBToolRotate) && currentMouseTransform == kCCBTransformHandleNone)
+                if(!(overTypeField & kCCBToolRotate) && currentMouseTransform == kCCBTransformHandleNone)
                 {
                     if([self isOverRotation:mousePos withPoints:points withCorner:&cornerIndex withOrientation:&cornerOrientation])
                     {
@@ -1161,7 +1161,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             return kCCBTransformHandleDownInside;        
         
         //kCCBToolRotate
-        if(!isJoint && !isContentSizeZero && [self isOverRotation:pt withPoints:points withCorner:nil withOrientation:nil])
+        if(!isJoint && [self isOverRotation:pt withPoints:points withCorner:nil withOrientation:nil])
             return kCCBTransformHandleRotate;
         
         //kCCBToolSize
