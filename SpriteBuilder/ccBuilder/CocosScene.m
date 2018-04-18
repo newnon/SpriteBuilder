@@ -852,28 +852,22 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         }
         return YES;
     }
-    NodeInfo* nodeInfo = transformSizeNode.userObject;
-    NSDictionary* propInfo = [nodeInfo.plugIn.nodePropertiesDict objectForKey:@"contentSize"];
-    BOOL disabledContentSize = CGSizeEqualToSize(transformSizeNode.contentSizeInPoints, CGSizeZero);
     
-    if(!disabledContentSize)
+    for (int i = 0; i < 4; i++)
     {
-        for (int i = 0; i < 4; i++)
+        CGPoint p1 = points[i % 4 + 4];
+        CGPoint p2 = points[(i + 1) % 4 + 4];
+        CGPoint p3 = points[(i + 2) % 4 + 4];
+        
+        float distance = ccpLength(ccpSub(_mousePos, p2));
+        if(distance > kMinDistanceToCorner && distance < kMaxDistanceToCorner)
         {
-            CGPoint p1 = points[i % 4 + 4];
-            CGPoint p2 = points[(i + 1) % 4 + 4];
-            CGPoint p3 = points[(i + 2) % 4 + 4];
+            CGPoint segment1 = ccpSub(p2, p1);
+            CGPoint segment2 = ccpSub(p2, p3);
             
-            float distance = ccpLength(ccpSub(_mousePos, p2));
-            if(distance > kMinDistanceToCorner && distance < kMaxDistanceToCorner)
-            {
-                CGPoint segment1 = ccpSub(p2, p1);
-                CGPoint segment2 = ccpSub(p2, p3);
-                
-                orientation = ccpNormalize(ccpAdd(segment1, segment2));
-                lCornerIndex = (i + 1) % 4 + 4;
-                minDistance = distance;
-            }
+            orientation = ccpNormalize(ccpAdd(segment1, segment2));
+            lCornerIndex = (i + 1) % 4 + 4;
+            minDistance = distance;
         }
     }
     
