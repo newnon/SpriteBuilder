@@ -2873,7 +2873,8 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     [PositionPropertySetter setPosition:NSPointFromCGPoint(pt) type:CCPositionTypePoints forNode:node prop:@"position"];
     [PositionPropertySetter setPositionType:CCPositionTypeUIPoints oldPositionType:CCPositionTypePoints forNode:node prop:@"position"];
     node.displayName = [[ccbFile lastPathComponent] stringByDeletingPathExtension];
-    [self addCCObject:node toParent:parent];
+    [self loadDefaultOptionsForNewSprite:node];
+    [self addCCObject:node toParent:parent];    
 }
 
 - (IBAction) copy:(id) sender
