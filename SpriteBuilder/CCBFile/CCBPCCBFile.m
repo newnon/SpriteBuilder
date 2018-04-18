@@ -57,13 +57,13 @@
         [self addChild:cf];
         self.contentSizeType = ccbFile.contentSizeType;
         self.contentSize = ccbFile.contentSize;
-        self.anchorPoint = ccbFile.anchorPoint;
+        //self.anchorPoint = ccbFile.anchorPoint;
         cf.anchorPoint = ccp(0,0);
     }
     else
     {
         self.contentSize = CGSizeZero;
-        self.anchorPoint = ccp(0,0);
+        //self.anchorPoint = ccp(0,0);
     }
 }
 
