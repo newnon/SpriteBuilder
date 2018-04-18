@@ -1820,7 +1820,6 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         if ([event modifierFlags] & NSControlKeyMask || disabledContentSize) {
             
             // Set new scale
-            [appDelegate saveUndoStateWillChangeProperty:@"scale"];
             [PositionPropertySetter setScaledX:transformStartScaleX * xScaleNew Y:transformStartScaleY * yScaleNew type:scaleType forNode:transformSizeNode prop:@"scale"];
             [[InspectorController sharedController] refreshProperty:@"scale"];
             
@@ -1830,7 +1829,6 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         }
         else
         {
-            [appDelegate saveUndoStateWillChangeProperty:@"contentSize"];
             transformSizeNode.contentSizeInPoints = CGSizeMake(widthLock ? transformContentSize.width : transformContentSize.width * xScaleNew,
                                                                heightLock ? transformContentSize.height : transformContentSize.height * yScaleNew);
             
