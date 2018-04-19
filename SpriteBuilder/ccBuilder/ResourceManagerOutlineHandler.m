@@ -302,11 +302,22 @@
                     if (SBSettings.showPrefabPreview) {
                         NSString *filePath = [SBSettings miscFilesPathForFile:res.filePath projectPathDir:self.projectSettings.projectPathDir];
                         filePath = [filePath stringByAppendingPathExtension:MISC_FILE_PPNG];
-                        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-                            icon = [ResourceManagerUtil thumbnailImageForResource:item];
-                        } else {
-                            icon = [NSImage imageNamed:@"ccbp.png"];
+                        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+                        NSDate *date = [attributes fileModificationDate];
+                        if (!res.previewImageDate) {
+                            res.previewImageDate = [NSDate date];
                         }
+                        if ([date compare:res.previewImageDate] != NSOrderedSame) {
+                            res.previewImageDate = date;
+                            if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+                                res.previewImageDate = date;
+                                res.previewImage = [ResourceManagerUtil thumbnailImageForResource:item];
+                            } else {
+                                res.previewImage = [NSImage imageNamed:@"ccbp.png"];
+                            }
+                        }
+                        icon = res.previewImage;
+                        
                     } else {
                         icon = [NSImage imageNamed:@"ccbp.png"];
                     }

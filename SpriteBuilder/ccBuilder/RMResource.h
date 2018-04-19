@@ -11,6 +11,9 @@
 @property (nonatomic, assign) BOOL touched;
 @property (nonatomic, strong) id data;
 
+@property (nonatomic, strong) NSDate *previewImageDate;
+@property (nonatomic, strong) NSImage *previewImage;
+
 - (instancetype)initWithFilePath:(NSString *)filePath;
 
 - (void)loadData;
