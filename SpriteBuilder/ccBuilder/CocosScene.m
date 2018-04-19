@@ -2309,6 +2309,13 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     mouseSelectPosDown = CGPointZero;
     mouseSelectPosMove = CGPointZero;
     currentMouseTransform = kCCBTransformHandleNone;
+    
+    //save scene offsets and zoom
+    CCBDocument *curDoc = appDelegate.currentDocument;
+    [curDoc.stageScrollOffsets setValue:@(scrollOffset.x) forKey:[NSString stringWithFormat:@"offset_x_%d",curDoc.currentResolution]];
+    [curDoc.stageScrollOffsets setValue:@(scrollOffset.y) forKey:[NSString stringWithFormat:@"offset_y_%d",curDoc.currentResolution]];
+    [curDoc.stageZooms setValue:@(self.stageZoom) forKey:[NSString stringWithFormat:@"zoom_%d",curDoc.currentResolution]];
+    
     return;
 }
 
