@@ -130,15 +130,14 @@
     if(!containsString || [containsString isEqualToString:@""] )
         return inputArray;
     NSPredicate *predicate = [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind){
+        if([[[(RMResource *)obj fullPath] lastPathComponent] localizedStandardContainsString:containsString])
+            return YES;
         if ([[(RMResource *)obj data] isKindOfClass:[RMDirectory class]])
         {
             RMDirectory *dir = [(RMResource *)obj data];
             return [self filterMatch:dir];
         }
-        else
-        {
-            return [[[(RMResource *)obj fullPath] lastPathComponent] localizedStandardContainsString:containsString];
-        }
+        return NO;
     }];
     
     NSArray *mArrayFiltered = [inputArray filteredArrayUsingPredicate:predicate];
