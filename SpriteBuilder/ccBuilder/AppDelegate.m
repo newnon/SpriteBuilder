@@ -2785,6 +2785,15 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
 	[sequenceHandler.outlineHierarchy reloadItem:[SceneGraph instance].joints reloadChildren:YES];
 }
 
+-(void)setFilterString:(NSString*)filterString
+{
+    _filterString = filterString;
+    projectOutlineHandler.filter = filterString;
+    [outlineProject reloadData];
+    if(filterString && ![filterString isEqualToString:@""])
+        [outlineProject expandItem:nil expandChildren:YES];
+}
+
 -(void)addJoint:(NSString*)jointName at:(CGPoint)pt
 {
     SceneGraph* g = [SceneGraph instance];

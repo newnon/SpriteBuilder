@@ -373,6 +373,8 @@ typedef void (^CompletionCallback) (BOOL success);
 
 @property (nonatomic,copy) NSString* errorDescription;
 
+@property (nonatomic,copy) NSString* filterString;
+
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 

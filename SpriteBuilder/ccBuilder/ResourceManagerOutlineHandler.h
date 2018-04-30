@@ -37,6 +37,7 @@
 
 @property (nonatomic,assign) int resType;
 @property (nonatomic,weak) ProjectSettings *projectSettings;
+@property (nonatomic, copy) NSString *filter;
 
 - (id) initWithOutlineView:(NSOutlineView*)outlineView
                    resType:(int)resourceType
