@@ -67,6 +67,7 @@
 
         self.previewController = previewController;
         resType = resourceType;
+        self.filter = nil;
 
         ImageAndTextCell* imageTextCell = [[ImageAndTextCell alloc] init];
         [imageTextCell setEditable:YES];
@@ -108,6 +109,42 @@
     return height;
 }
 
+-(BOOL)filterMatch:(RMDirectory*)dir
+{
+    NSArray* children = [dir resourcesForType:resType];
+    for(RMResource *child in children)
+    {
+        if([[child.fullPath lastPathComponent] localizedStandardContainsString:_filter])
+            return YES;
+        if ([child.data isKindOfClass:[RMDirectory class]])
+        {
+            if([self filterMatch:child.data])
+                return YES;
+        }
+    }
+    return NO;
+}
+
+-(NSArray *)searchByContains:(NSString *)containsString inputArray:(NSArray *)inputArray
+{
+    if(!containsString || [containsString isEqualToString:@""] )
+        return inputArray;
+    NSPredicate *predicate = [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind){
+        if ([[(RMResource *)obj data] isKindOfClass:[RMDirectory class]])
+        {
+            RMDirectory *dir = [(RMResource *)obj data];
+            return [self filterMatch:dir];
+        }
+        else
+        {
+            return [[[(RMResource *)obj fullPath] lastPathComponent] localizedStandardContainsString:containsString];
+        }
+    }];
+    
+    NSArray *mArrayFiltered = [inputArray filteredArrayUsingPredicate:predicate];
+    
+    return mArrayFiltered;
+}
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
@@ -139,7 +176,13 @@
         RMDirectory* dir = item;
         
         NSArray* children = [dir resourcesForType:resType];
-        return [children count];
+        
+        if(!_filter || [[dir.dirPath lastPathComponent] localizedStandardContainsString:_filter])
+            return [children count];
+        
+        NSArray *filteredChildren = [self searchByContains:_filter inputArray:children];
+        
+        return [filteredChildren count];
     }
     else if ([item isKindOfClass:[RMResource class]])
     {
@@ -188,7 +231,12 @@
     {
         RMDirectory* dir = item;
         NSArray* children = [dir resourcesForType:resType];
-        return children[(NSUInteger) index];
+        
+        if(!_filter || [[dir.dirPath lastPathComponent] localizedStandardContainsString:_filter])
+            return children[(NSUInteger) index];;
+        
+        NSArray *filteredChildren = [self searchByContains:_filter inputArray:children];
+        return filteredChildren[(NSUInteger) index];
     }
     else if ([item isKindOfClass:[RMResource class]])
     {
