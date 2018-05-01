@@ -2800,6 +2800,12 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
         [outlineProject expandItem:nil expandChildren:YES];
 }
 
+- (void)controlTextDidChange:(NSNotification *)notification {
+    NSTextField *textField = [notification object];
+    self.filterString = textField.stringValue;
+}
+
+
 -(void)addJoint:(NSString*)jointName at:(CGPoint)pt
 {
     SceneGraph* g = [SceneGraph instance];
