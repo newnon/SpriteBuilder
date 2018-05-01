@@ -5059,10 +5059,10 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
 {
     if ([self hasDirtyDocument])
     {
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Quit SpriteBuilder"
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Save files before closing?"
                                          defaultButton:@"Cancel"
-                                       alternateButton:@"Quit"
-                                           otherButton:@"Save All & Quit"
+                                       alternateButton:@"Don't Save"
+                                           otherButton:@"Save All"
                              informativeTextWithFormat:@"There are unsaved documents. If you quit now you will lose any changes you have made."];
 
         [alert setAlertStyle:NSWarningAlertStyle];
