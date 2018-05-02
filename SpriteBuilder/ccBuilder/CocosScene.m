@@ -2062,8 +2062,13 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         CGPoint deltaAnchorPoint = ccp(deltaLocal.x / transformSizeNode.contentSizeInPoints.width, deltaLocal.y / transformSizeNode.contentSizeInPoints.height);
         
         [appDelegate saveUndoStateWillChangeProperty:@"anchorPoint"];
-        transformSizeNode.anchorPoint = ccpAdd(transformSizeNode.startAnchorPoint, deltaAnchorPoint);
+        if ([event modifierFlags] & NSAlternateKeyMask) {
+            [self setAnchorPoint:ccpAdd(transformSizeNode.startAnchorPoint, deltaAnchorPoint) forNode:transformSizeNode];
+        } else {
+            transformSizeNode.anchorPoint = ccpAdd(transformSizeNode.startAnchorPoint, deltaAnchorPoint);
+        }
         [[InspectorController sharedController] refreshProperty:@"anchorPoint"];
+        [[InspectorController sharedController] refreshProperty:@"position"];
         
         [self updateAnchorPointCompensation];
     }
