@@ -3153,7 +3153,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     
     CCNode *parent = node.parent;
     
-    [node removeFromParentAndCleanup:YES];
+    [node removeFromParentAndCleanup:NO];
     
     [parent sortAllChildren];
     [outlineHierarchy reloadData];
