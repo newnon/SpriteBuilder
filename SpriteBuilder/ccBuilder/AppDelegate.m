@@ -1455,7 +1455,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
         }
         else
         {
-            currentDocument.currentResolution = 0;
+            currentDocument.currentResolution = 1;
         }
         
         ResolutionSetting* resolution = [resolutions objectAtIndex:currentDocument.currentResolution];
