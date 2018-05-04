@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SettingsWindow">
             <connections>
+                <outlet property="autoPublish" destination="L6e-da-Xta" id="LUT-QQ-Oef"/>
                 <outlet property="backupIntervalPopUpButton" destination="dtJ-lj-eKG" id="lNB-sn-hzA"/>
                 <outlet property="backupPathField" destination="Q7g-rw-dRe" id="GP0-N7-ITB"/>
                 <outlet property="defaultSpriteAnchorX" destination="lLc-5d-bT8" id="gty-ed-73z"/>
@@ -33,11 +34,11 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="704" y="787" width="879" height="230"/>
+            <rect key="contentRect" x="704" y="787" width="879" height="253"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <value key="minSize" type="size" width="879" height="230"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="879" height="230"/>
+                <rect key="frame" x="0.0" y="0.0" width="879" height="253"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HJZ-F7-bXz">
@@ -55,20 +56,20 @@ Gw
                         </connections>
                     </button>
                     <tabView fixedFrame="YES" controlSize="small" translatesAutoresizingMaskIntoConstraints="NO" id="FXC-Vl-xCo">
-                        <rect key="frame" x="13" y="40" width="853" height="173"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="13" y="40" width="853" height="196"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <tabViewItems>
                             <tabViewItem label="General" identifier="0" id="cZD-xm-4gI">
                                 <view key="view" ambiguous="YES" id="b1H-NP-Ill">
-                                    <rect key="frame" x="10" y="25" width="833" height="135"/>
+                                    <rect key="frame" x="10" y="25" width="833" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="pYN-DK-FoG">
-                                            <rect key="frame" x="17" y="60" width="799" height="5"/>
+                                            <rect key="frame" x="17" y="83" width="799" height="5"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </box>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tac-Uv-KBh">
-                                            <rect key="frame" x="445" y="69" width="19" height="27"/>
+                                            <rect key="frame" x="445" y="92" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" continuous="YES" alignment="left" increment="0.10000000000000001" minValue="-100" maxValue="100" doubleValue="0.5" id="p2e-6z-2Pp">
                                                 <connections>
@@ -80,7 +81,7 @@ Gw
                                             </connections>
                                         </stepper>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kdm-Qi-JZ7">
-                                            <rect key="frame" x="214" y="74" width="172" height="17"/>
+                                            <rect key="frame" x="214" y="97" width="172" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default Sprite anchor point:" id="bqG-MT-pIx">
                                                 <font key="font" metaFont="system"/>
@@ -89,7 +90,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lLc-5d-bT8">
-                                            <rect key="frame" x="416" y="71" width="30" height="22"/>
+                                            <rect key="frame" x="416" y="94" width="30" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0.5" drawsBackground="YES" id="wFb-k5-0Tf">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="sTg-vy-V9I"/>
@@ -102,7 +103,7 @@ Gw
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h5v-Zc-fRs">
-                                            <rect key="frame" x="487" y="71" width="30" height="22"/>
+                                            <rect key="frame" x="487" y="94" width="30" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0.5" drawsBackground="YES" id="gju-J5-HdQ">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="03u-5M-0Ql"/>
@@ -115,7 +116,7 @@ Gw
                                             </connections>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JZN-7M-V9V">
-                                            <rect key="frame" x="473" y="73" width="13" height="17"/>
+                                            <rect key="frame" x="473" y="96" width="13" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Y" id="LKv-Wu-eJ1">
                                                 <font key="font" metaFont="cellTitle"/>
@@ -124,7 +125,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Rn-es-h5h">
-                                            <rect key="frame" x="516" y="69" width="19" height="27"/>
+                                            <rect key="frame" x="516" y="92" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" continuous="YES" alignment="left" increment="0.10000000000000001" minValue="-100" maxValue="100" doubleValue="0.5" id="CLn-kQ-Tf0"/>
                                             <connections>
@@ -132,7 +133,7 @@ Gw
                                             </connections>
                                         </stepper>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pdf-jm-FCH">
-                                            <rect key="frame" x="401" y="98" width="221" height="22"/>
+                                            <rect key="frame" x="401" y="121" width="221" height="22"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="X in points" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="9Dn-Vv-3eL" id="je2-q7-U7G">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -147,7 +148,7 @@ Gw
                                             </popUpButtonCell>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bzt-xC-6O9">
-                                            <rect key="frame" x="212" y="102" width="174" height="17"/>
+                                            <rect key="frame" x="212" y="125" width="174" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Default Sprite position type:" id="JQ7-gY-rQA">
                                                 <font key="font" metaFont="system"/>
@@ -156,7 +157,7 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xEF-l1-j8y">
-                                            <rect key="frame" x="402" y="13" width="215" height="18"/>
+                                            <rect key="frame" x="402" y="36" width="215" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Move node on copy" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="BYy-dr-hVp">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -164,7 +165,7 @@ Gw
                                             </buttonCell>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iIW-CU-CIt">
-                                            <rect key="frame" x="402" y="73" width="13" height="17"/>
+                                            <rect key="frame" x="402" y="96" width="13" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="X" id="HLb-jI-Q4c">
                                                 <font key="font" metaFont="cellTitle"/>
@@ -173,9 +174,17 @@ Gw
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fIr-7h-RrN">
-                                            <rect key="frame" x="402" y="38" width="215" height="18"/>
+                                            <rect key="frame" x="402" y="61" width="215" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Restore opened ccb documents" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="NEM-Lj-HEK">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L6e-da-Xta">
+                                            <rect key="frame" x="402" y="11" width="263" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Auto-publish after saving(experimental)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jkC-9V-Pzj">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -372,7 +381,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="193.5" y="130"/>
+            <point key="canvasLocation" x="193.5" y="141.5"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="g88-YY-a2s"/>
     </objects>

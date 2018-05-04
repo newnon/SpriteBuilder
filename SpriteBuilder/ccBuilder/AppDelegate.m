@@ -811,10 +811,12 @@ typedef enum
 
 - (void) modalStatusWindowFinish
 {
-    modalTaskStatusWindow.indeterminate = YES;
-    modalTaskStatusWindow.onCancelBlock = nil;
-    [[NSApplication sharedApplication] stopModal];
-    [modalTaskStatusWindow.window orderOut:self];
+    if (modalTaskStatusWindow) {
+        modalTaskStatusWindow.indeterminate = YES;
+        modalTaskStatusWindow.onCancelBlock = nil;
+        [[NSApplication sharedApplication] stopModal];
+        [modalTaskStatusWindow.window orderOut:self];
+    }
     modalTaskStatusWindow = nil;
 }
 
@@ -2115,6 +2117,10 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     */
     
     [projectOutlineHandler updateSelectionPreview];
+    
+    if ([projectSettings.platformsSettings count] != 0 && SBSettings.autoPublish) {
+        [self publishStartAsync:NO silent:YES];
+    }
 }
 
 - (void) generatePreviewForDirectory:(RMDirectory*) dir
@@ -3377,7 +3383,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
                 // Falling through to publish
             case NSAlertOtherReturn:
                 // Open progress window and publish
-                [self publishStartAsync:async];
+                [self publishStartAsync:async silent:NO];
                 break;
             default:
                 break;
@@ -3385,11 +3391,11 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     }
     else
     {
-        [self publishStartAsync:async];
+        [self publishStartAsync:async silent:NO];
     }
 }
 
-- (void)publishStartAsync:(BOOL)async
+- (void)publishStartAsync:(BOOL)async silent:(BOOL) silent
 {
     self.publisherController = [[CCBPublisherController alloc] init];
     _publisherController.projectSettings = projectSettings;
@@ -3409,11 +3415,13 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     if (async)
     {
         [_publisherController startAsync:YES];
-        [self modalStatusWindowStartWithTitle:@"Publishing" isIndeterminate:NO onCancelBlock:^
-        {
-            [_publisherController cancel];
-        }];
-        [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+        if (!silent) {
+            [self modalStatusWindowStartWithTitle:@"Publishing" isIndeterminate:NO onCancelBlock:^
+            {
+                [_publisherController cancel];
+            }];
+            [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+        }
     }
     else
     {

@@ -188,6 +188,17 @@
     return [moveNodeOnCopy boolValue];
 }
 
+-(void) setAutoPublish:(BOOL)autoPublish {
+    [SBUserDefaults setObject:[NSNumber numberWithBool:autoPublish] forKey:@"autoPublish"];
+}
+
+-(BOOL) autoPublish {
+    id autoPublish = [SBUserDefaults valueForKey:@"autoPublish"];
+    if(!autoPublish)
+        return YES;
+    return [autoPublish boolValue];
+}
+
 -(void) setShowPrefabs:(BOOL)showPrefabs {
     [SBUserDefaults setObject:[NSNumber numberWithBool:showPrefabs] forKey:@"showPrefabs"];
 }

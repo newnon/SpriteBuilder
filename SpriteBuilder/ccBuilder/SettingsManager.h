@@ -37,6 +37,8 @@
 @property (nonatomic,assign) int bgLayerColor;
 @property (nonatomic,assign) int mainStageColor;
 
+@property (nonatomic, assign) BOOL autoPublish;
+
 @property (nonatomic, strong) NSMutableDictionary *expandedSeparators;
 
 + (instancetype) instance;

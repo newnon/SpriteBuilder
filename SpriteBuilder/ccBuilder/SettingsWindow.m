@@ -96,6 +96,7 @@ typedef void (^DirectorySetterBlock)(NSString *directoryPath);
     [self.defaultSpritePositionType selectItemWithTag:SBSettings.defaultSpritePositionUnit];
     self.restoreOpenedDocuments.state = SBSettings.restoreOpenedDocuments;
     self.moveNodeOnCopy.state = SBSettings.moveNodeOnCopy;
+    self.autoPublish.state = SBSettings.autoPublish;
 }
 
 - (IBAction)enableBackup:(NSButton *)sender {
@@ -144,6 +145,7 @@ typedef void (^DirectorySetterBlock)(NSString *directoryPath);
     SBSettings.defaultSpritePositionUnit = self.defaultSpritePositionType.selectedTag;
     SBSettings.restoreOpenedDocuments = self.restoreOpenedDocuments.state;
     SBSettings.moveNodeOnCopy = self.moveNodeOnCopy.state;
+    SBSettings.autoPublish = self.autoPublish.state;
     
     [SBSettings save];
     [super acceptSheet:sender];
