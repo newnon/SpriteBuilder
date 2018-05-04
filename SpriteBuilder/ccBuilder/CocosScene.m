@@ -1377,7 +1377,9 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     // Handle grab tool
     if (currentTool == kCCBToolGrab || ([event modifierFlags] & NSCommandKeyMask))
     {
-
+        mouseDragStarted = NO;
+        mouseDragStartedPos = CGPointZero;
+        
         self.currentTool = kCCBToolGrab;
         isPanning = YES;
         panningStartScrollOffset = scrollOffset;
@@ -1385,9 +1387,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     }
     
     // Find out which objects were clicked
-    
     // Transform handles
-    
     if (!appDelegate.physicsHandler.editingPhysicsBody)
     {
         CCBTransformHandle th = [self transformHandleUnderPt:pos];
@@ -1429,13 +1429,11 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             transformStartScaleY = [PositionPropertySetter scaleYForNode:transformSizeNode prop:@"scale"];
             return;
         }
-
     }
     
     
     // Clicks inside objects
     [nodesAtSelectionPt removeAllObjects];
-    
    
 	[self nodesUnderPt:pos rootNode:rootNode nodes:nodesAtSelectionPt];
 	
@@ -1730,6 +1728,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     
     if (currentMouseTransform == kCCBTransformHandleDownInside && nodesAtSelectionPt && nodesAtSelectionPt.count>0)
     {
+
         CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
         
         BOOL selectedNodeUnderClickPt = NO;
@@ -1770,14 +1769,33 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         }
     }
     
-    if (currentMouseTransform == kCCBTransformHandleMove)
+    //fix mouse click-select-drag problem, it occurs for me when I open scene and try to select any object
+    //as result(sometimes) object will be moved slightly and document will be modified
+    //mouse usually moves a little bit by user after clicking on an object..
+    //need to preevent this unneeded dragging
+    
+    //apply this only for newly selected objects, so currently selected object will be moved insta
+    bool sameSelection;
+    NSSet *set1 = [NSSet setWithArray:appDelegate.selectedNodes];
+    NSMutableSet *set2 = [NSMutableSet setWithArray:selectedNodesBeforeMouseDrag];
+    [set2 minusSet:set1];
+    sameSelection = set2.count == 0 ? YES : NO;
+    
+    CGPoint delta = ccp((int)(pos.x - mouseDownPos.x), (int)(pos.y - mouseDownPos.y));
+    if (currentMouseTransform == kCCBTransformHandleMove && (mouseDragStarted ? YES : ccpLength(delta) > (sameSelection ? 0 : (5.0 * [self selectionZoom]))))
     {
+        if (!mouseDragStarted) {
+            mouseDragStarted = YES;
+            mouseDragStartedPos = pos;
+        }
+        
         for (CCNode* selectedNode in appDelegate.selectedNodes)
         {
             if(selectedNode.locked)
                 continue;
           
-            CGPoint delta = ccp((int)(pos.x - mouseDownPos.x), (int)(pos.y - mouseDownPos.y));
+            CGPoint delta = ccp((int)(pos.x - (mouseDragStarted ? mouseDragStartedPos.x : mouseDownPos.x)),
+                                (int)(pos.y - (mouseDragStarted ? mouseDragStartedPos.y : mouseDownPos.y)));
           
             // Handle shift key (straight drags)
             if ([event modifierFlags] & NSShiftKeyMask)
@@ -2305,6 +2323,8 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     [snapLayer mouseUp:pos event:event];
     
     isMouseTransforming = NO;
+    mouseDragStarted = NO;
+    mouseDragStartedPos = CGPointZero;
     
     if (isPanning)
     {
@@ -2314,6 +2334,9 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     mouseSelectPosDown = CGPointZero;
     mouseSelectPosMove = CGPointZero;
     currentMouseTransform = kCCBTransformHandleNone;
+    
+    [selectedNodesBeforeMouseDrag removeAllObjects];
+    [selectedNodesBeforeMouseDrag addObjectsFromArray:appDelegate.selectedNodes];
     
     //save scene offsets and zoom
     CCBDocument *curDoc = appDelegate.currentDocument;
@@ -2836,6 +2859,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
     nodesAtSelectionPt = [NSMutableArray array];
     nodesAtMouseSelection = [NSMutableSet set];
     selectableNodesOnScene = [NSMutableArray array];
+    selectedNodesBeforeMouseDrag = [NSMutableArray array];
     
 	if( (self=[super init] ))
     {

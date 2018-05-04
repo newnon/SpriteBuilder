@@ -103,6 +103,10 @@ enum {
     CGPoint mousePos;
     CGPoint mouseDownPos;
     
+    BOOL mouseDragStarted;
+    CGPoint mouseDragStartedPos;
+    NSMutableArray *selectedNodesBeforeMouseDrag;
+    
     CGPoint mouseSelectPosDown;
     CGPoint mouseSelectPosMove;
     
