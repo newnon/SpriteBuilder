@@ -2119,7 +2119,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     [projectOutlineHandler updateSelectionPreview];
     
     if ([projectSettings.platformsSettings count] != 0 && SBSettings.autoPublish) {
-        [self publishStartAsync:NO silent:YES];
+        [self publishStartAsync:YES silent:YES];
     }
 }
 
