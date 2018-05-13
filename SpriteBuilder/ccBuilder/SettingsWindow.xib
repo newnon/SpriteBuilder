@@ -65,7 +65,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="pYN-DK-FoG">
-                                            <rect key="frame" x="17" y="83" width="799" height="5"/>
+                                            <rect key="frame" x="17" y="83" width="799" height="201"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         </box>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tac-Uv-KBh">
@@ -182,9 +182,9 @@ Gw
                                             </buttonCell>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L6e-da-Xta">
-                                            <rect key="frame" x="402" y="11" width="263" height="18"/>
+                                            <rect key="frame" x="402" y="11" width="175" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Auto-publish after saving(experimental)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jkC-9V-Pzj">
+                                            <buttonCell key="cell" type="check" title="Auto-publish after saving" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="jkC-9V-Pzj">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -194,11 +194,11 @@ Gw
                             </tabViewItem>
                             <tabViewItem label="Paths" identifier="1" id="Urh-li-NZC">
                                 <view key="view" id="H0C-ZI-BXa">
-                                    <rect key="frame" x="10" y="25" width="833" height="135"/>
+                                    <rect key="frame" x="10" y="25" width="833" height="158"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <box fixedFrame="YES" title="Paths options" translatesAutoresizingMaskIntoConstraints="NO" id="Lb6-8I-gQw">
-                                            <rect key="frame" x="14" y="52" width="805" height="77"/>
+                                            <rect key="frame" x="14" y="75" width="805" height="77"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <view key="contentView" id="llo-tF-N28">
                                                 <rect key="frame" x="2" y="2" width="801" height="60"/>
