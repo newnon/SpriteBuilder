@@ -4134,8 +4134,8 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
 - (IBAction) menuZoomOut:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
-    
-    float minZoom = 0.1f;
+    //I have levels 8000px height, zoom out please
+    float minZoom = 0.013f;
     ResolutionSetting* res = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
     if(res.width!=0&&res.height!=0)
         minZoom /= (self.projectSettings.defaultOrientation == kCCBOrientationLandscape?res.height:res.width) / 768.0;

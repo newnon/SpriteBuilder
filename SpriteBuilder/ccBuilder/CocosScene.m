@@ -2548,7 +2548,7 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
         if(appDelegate.currentDocument)
         {
             float maxZoom = 8;
-            float minZoom = 0.1f;
+            float minZoom = 0.013f;
             float zoom = [self stageZoom];
             if(dy>0)
             {
