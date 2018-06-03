@@ -2488,7 +2488,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
 		return NO;
 	}
     
-    [self saveUndoState];
+    //[self saveUndoState];
     
     // Add object and change zOrder of objects after this child
     if (index == CCNODE_INDEX_LAST)
@@ -2521,8 +2521,10 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     }
     
     [outlineHierarchy reloadData];
-    [self setSelectedNodes:@[child]];
-    [_inspectorController updateInspectorFromSelection];
+    //this setSelected cause moveNodeOnCopy in doPasteAsChild:(BOOL)asChild works wrong...
+    //now all should be fixed.
+    //[self setSelectedNodes:@[child]];
+    //[_inspectorController updateInspectorFromSelection];
     
     return YES;
 }
@@ -3028,6 +3030,8 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     
     if (type)
     {
+        [self saveUndoState];
+        
         [animationPlaybackManager stop];
 
         NSData* clipData = [cb dataForType:type];
@@ -3053,7 +3057,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
             [self addCCObject:clipNode asChild:asChild];
             [copiedNodes addObject:clipNode];
             
-            if (SBSettings.moveNodeOnCopy && (asChild ? self.selectedNode == clipNode.parent : self.selectedNode.parent == clipNode.parent)) {
+            if (SBSettings.moveNodeOnCopy && !asChild) {
                 //move copied node's to see it copied
                 CGPoint pointPos = ccpAdd(clipNode.positionInPoints, ccp(clipNode.contentSize.width * 0.25, clipNode.contentSize.height * -0.25));
                 clipNode.position = [clipNode convertPositionFromPoints:pointPos type:clipNode.positionType];
@@ -3151,7 +3155,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
         return;
     }
 
-    [self saveUndoState];
+    //[self saveUndoState];
     
     CCNode *nextSelection = nil;
     
@@ -3179,8 +3183,8 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     [parent sortAllChildren];
     [outlineHierarchy reloadData];
     
-    [self setSelectedNodes:@[nextSelection]];
-    [sequenceHandler updateOutlineViewSelection];
+    //[self setSelectedNodes:@[nextSelection]];
+    //[sequenceHandler updateOutlineViewSelection];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SCENEGRAPH_NODE_DELETED object:node];
 }
@@ -3199,6 +3203,7 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
     {
         [self deleteNode:node];
     }
+    [self setSelectedNodes:NULL];
 }
 
 - (IBAction) cut:(id) sender
