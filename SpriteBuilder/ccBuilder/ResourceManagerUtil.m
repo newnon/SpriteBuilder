@@ -95,7 +95,12 @@
                 || res.type == kCCBResTypeAudio)
             {
                 NSString* itemName = [res.filePath lastPathComponent];
-                NSMenuItem* menuItem = [[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedResource:) keyEquivalent:@""];
+                NSString *menuItemName = (res.type == kCCBResTypeImage)? [NSString stringWithFormat:@"%@%@",itemName, res.spriteFrameSize] : itemName;
+                
+                NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle: menuItemName
+                                                                  action: @selector(selectedResource:)
+                                                           keyEquivalent: @""];
+                
                 [menuItem setTarget:target];
                 [menu addItem:menuItem];
                 
@@ -360,6 +365,9 @@
         CGFloat viewScale = /*fixedSize ?*/ 1.0; //: [AppDelegate appDelegate].derivedViewScaleFactor;
         CGSize size = CGSizeMake(kRMImagePreviewSize*viewScale, kRMImagePreviewSize*viewScale);
         NSURL *fileURL = [NSURL fileURLWithPath:path];
+        
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+        res.spriteFrameSize = [NSString stringWithFormat:@"%.01fx%.01f", image.size.width, image.size.height];
         
         if (!path|| !fileURL) {
             return nil;

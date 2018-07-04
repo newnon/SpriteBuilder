@@ -1511,18 +1511,19 @@ static NSString * kZeroContentSizeImage = @"sel-round.png";
             [appDelegate.spriteObjectMenu addItem: separator1];
             
             //Menu FlipXY
-            NSMenuItem *brightness = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+            NSMenuItem *flipXYItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
             SpriteObjectMenuFlipController *flipMenu = [[SpriteObjectMenuFlipController alloc] initWithNibName:@"SpriteObjectMenuFlipController"
                                                                                                         bundle:nil];
             flipMenu.selection = selection;
-            [brightness setView:flipMenu.view];
-            [appDelegate.spriteObjectMenu addItem:brightness];
+            [flipXYItem setView:flipMenu.view];
+            [appDelegate.spriteObjectMenu addItem:flipXYItem];
             
             
             //Menu SpriteFrame
             NSString *propertyName = @"spriteFrame";
             // Setup menu for the SpriteFrame
-            NSString *spriteFrameTitle = [info.extraProps valueForKey:propertyName];
+            NSString *spriteFrameTitle = [NSString stringWithFormat:@"%@",
+                                          [info.extraProps valueForKey:propertyName]];
             bool isNull = (spriteFrameTitle.length == 0);
             NSMenuItem *spriteFrameMenuItem = [[NSMenuItem alloc] initWithTitle: isNull ? @"<NULL>" : spriteFrameTitle
                                                                          action: nil

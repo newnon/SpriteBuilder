@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSDate *previewImageDate;
 @property (nonatomic, strong) NSImage *previewImage;
+@property (nonatomic, strong) NSString *spriteFrameSize;
 
 - (instancetype)initWithFilePath:(NSString *)filePath;
 
