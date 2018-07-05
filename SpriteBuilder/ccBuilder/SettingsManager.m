@@ -89,7 +89,7 @@
 {
     id backupInterval = [SBUserDefaults valueForKey:@"backupInterval"];
     if(!backupInterval)
-        return 60;
+        return 10;
     return [backupInterval integerValue];
 }
 
@@ -228,7 +228,7 @@
 -(BOOL) sortCustomProperties {
     id sortCustomProperties = [SBUserDefaults valueForKey:@"sortCustomProperties"];
     if(!sortCustomProperties)
-        return YES;
+        return NO;
     return [sortCustomProperties boolValue];
 }
 
@@ -288,7 +288,7 @@
 - (void)resetBackupSettings
 {
     self.enableBackup = YES;
-    self.backupInterval = 60;
+    self.backupInterval = 10;
     self.backupPath = [self defaultBackupPath];
 }
 
