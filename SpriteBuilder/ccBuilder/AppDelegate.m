@@ -2792,6 +2792,10 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
 
 -(void)setFilterString:(NSString*)filterString
 {
+    if(filterTimer) {
+        [filterTimer invalidate];
+        filterTimer = nil;
+    }
     _filterString = filterString;
     projectOutlineHandler.filter = filterString;
     [outlineProject reloadData];
@@ -2799,9 +2803,23 @@ typedef void (^SetNodeParamBlock)(CCNode*, id);
         [outlineProject expandItem:nil expandChildren:YES];
 }
 
+-(void)setFilterStringByTimer:(NSTimer*)timer
+{
+    [self setFilterString:timer.userInfo];
+}
+
 - (void)controlTextDidChange:(NSNotification *)notification {
     NSTextField *textField = [notification object];
-    self.filterString = textField.stringValue;
+    if(filterTimer)
+    {
+        [filterTimer invalidate];
+    }
+    filterTimer = [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(setFilterStringByTimer:)
+                                   userInfo:textField.stringValue
+                                    repeats:YES];
+    
 }
 
 
