@@ -100,7 +100,9 @@ static float clampf(float value, float min_inclusive, float max_inclusive)
         return [srcPath copy];
     }
     else if (format == kFCImageFormatPNG ||
-        format == kFCImageFormatPNG_8BIT)
+             format == kFCImageFormatPNG_8BIT ||
+             format == kFCImageFormatPNG_NO_ALPHA ||
+             format == kFCImageFormatPNG_8BIT_NO_ALPHA)
     {
         // File might be loaded from a .psd file.
         return [[srcPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
@@ -124,7 +126,9 @@ static float clampf(float value, float min_inclusive, float max_inclusive)
         return dstPath;
     }
     else if (format == kFCImageFormatWEBP ||
-             format == kFCImageFormatWEBP_LOSSY)
+             format == kFCImageFormatWEBP_LOSSY ||
+             format == kFCImageFormatWEBP_NO_ALPHA ||
+             format == kFCImageFormatWEBP_LOSSY_NO_ALPHA)
     {
         NSString* dstPath = [[srcPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"webp"];
         return dstPath;
