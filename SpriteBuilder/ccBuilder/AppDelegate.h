@@ -219,6 +219,8 @@ typedef void (^CompletionCallback) (BOOL success);
     IBOutlet NSMenu* menuTimelineChained;
     IBOutlet NSTextField* lblTimelineChained;
     
+    NSTimer *filterTimer;
+    
 
     NSMutableDictionary* defaultCanvasSizes;
     // IBOutlet NSMenuItem* menuItemStageCentered;
