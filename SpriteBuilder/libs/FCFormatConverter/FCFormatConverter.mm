@@ -287,8 +287,8 @@ static BOOL convertToPng(NSString *srcPath, NSString *dstPath, kFCAlphaProcessin
     NSBitmapImageRep* rawImg = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
     if(alphaProcessing == kFCAlphaProcessingPremultiply && [rawImg hasAlpha])
     {
-        pvrtexture::CPVRTextureHeader header(pvrtexture::PVRStandard8PixelType.PixelTypeID, image.size.height , image.size.width);
-        pvrtexture::CPVRTexture     * pvrTexture = new pvrtexture::CPVRTexture(header , rawImg.bitmapData);
+        pvrtexture::CPVRTextureHeader header(pvrtexture::PVRStandard8PixelType.PixelTypeID, rawImg.pixelsHigh, rawImg.pixelsWide);
+        pvrtexture::CPVRTexture     * pvrTexture = new pvrtexture::CPVRTexture(header, rawImg.bitmapData);
         
         if(!pvrtexture::PreMultiplyAlpha(*pvrTexture))
         {
@@ -301,13 +301,13 @@ static BOOL convertToPng(NSString *srcPath, NSString *dstPath, kFCAlphaProcessin
             delete pvrTexture;
             return NO;
         }
-        BOOL ret = saveRawDataToPng(pvrTexture->getDataPtr(), image.size.width, image.size.height, [rawImg hasAlpha], YES, dstPath, error);
+        BOOL ret = saveRawDataToPng(pvrTexture->getDataPtr(), rawImg.pixelsWide, rawImg.pixelsHigh, [rawImg hasAlpha], YES, dstPath, error);
         delete pvrTexture;
         return ret;
     }
     else
     {
-        return saveRawDataToPng(rawImg.bitmapData, image.size.width, image.size.height, [rawImg hasAlpha], alphaProcessing != kFCAlphaProcessingDrop, dstPath, error);
+        return saveRawDataToPng(rawImg.bitmapData, rawImg.pixelsWide, rawImg.pixelsHigh, [rawImg hasAlpha], alphaProcessing != kFCAlphaProcessingDrop, dstPath, error);
     }
 }
 
