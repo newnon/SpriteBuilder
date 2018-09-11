@@ -129,8 +129,6 @@
 #import "PreviewContainerViewController.h"
 #import "InspectorController.h"
 #import "EditClassWindow.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "SettingsWindow.h"
 #import "SettingsManager.h"
 #import "PlatformSettings.h"
@@ -507,7 +505,6 @@ typedef enum
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [Fabric with:@[[Crashlytics class]]];
 
     [SBUserDefaults setObject:@YES forKey:@"ApplePersistenceIgnoreState"];
     [SBUserDefaults registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];

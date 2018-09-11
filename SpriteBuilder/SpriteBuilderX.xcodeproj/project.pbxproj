@@ -928,8 +928,6 @@
 		F89F37BB1E488DFC0038D53B /* LICENSE_RelativePath.txt in Resources */ = {isa = PBXBuildFile; fileRef = F89F37B61E488DFC0038D53B /* LICENSE_RelativePath.txt */; };
 		F89F37BC1E488DFC0038D53B /* LICENSE_SCEvents.txt in Resources */ = {isa = PBXBuildFile; fileRef = F89F37B71E488DFC0038D53B /* LICENSE_SCEvents.txt */; };
 		F8A53CCA1E3920A700C602B6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A53CC71E3920A700C602B6 /* SystemConfiguration.framework */; };
-		F8A53CCB1E3920A700C602B6 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A53CC81E3920A700C602B6 /* Fabric.framework */; };
-		F8A53CCC1E3920A700C602B6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8A53CC91E3920A700C602B6 /* Crashlytics.framework */; };
 		F8AC728E200F9ECB006099B9 /* ccbp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F8AC728C200F9ECB006099B9 /* ccbp@2x.png */; };
 		F8AC728F200F9ECB006099B9 /* ccbp.png in Resources */ = {isa = PBXBuildFile; fileRef = F8AC728D200F9ECB006099B9 /* ccbp.png */; };
 		F8E3DDFB1FACF33D00E3E931 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C623B217F383CE00928F91 /* CoreFoundation.framework */; };
@@ -2515,8 +2513,6 @@
 		F89F37B61E488DFC0038D53B /* LICENSE_RelativePath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE_RelativePath.txt; path = ../Info/LICENSE_RelativePath.txt; sourceTree = "<group>"; };
 		F89F37B71E488DFC0038D53B /* LICENSE_SCEvents.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE_SCEvents.txt; path = ../Info/LICENSE_SCEvents.txt; sourceTree = "<group>"; };
 		F8A53CC71E3920A700C602B6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		F8A53CC81E3920A700C602B6 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		F8A53CC91E3920A700C602B6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		F8AC728C200F9ECB006099B9 /* ccbp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ccbp@2x.png"; sourceTree = "<group>"; };
 		F8AC728D200F9ECB006099B9 /* ccbp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ccbp.png; sourceTree = "<group>"; };
 		FA98CFC1154E7D1C006E58C5 /* ccbpublish */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ccbpublish; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2542,12 +2538,10 @@
 				A535686B1D21480E009EC595 /* libTextureConverter.dylib in Frameworks */,
 				E3A4747C16D43BF300DB0D61 /* AVFoundation.framework in Frameworks */,
 				E3A4747A16D43BEA00DB0D61 /* OpenAL.framework in Frameworks */,
-				F8A53CCC1E3920A700C602B6 /* Crashlytics.framework in Frameworks */,
 				E3A4747816D43B5800DB0D61 /* AudioToolbox.framework in Frameworks */,
 				E3B19F6B15E62ADA000B023E /* Carbon.framework in Frameworks */,
 				E3E0879015669FA2008F1FDB /* libffi.dylib in Frameworks */,
 				776A37161395925D00960E94 /* Quartz.framework in Frameworks */,
-				F8A53CCB1E3920A700C602B6 /* Fabric.framework in Frameworks */,
 				77D33E95138E714700012A88 /* ExceptionHandling.framework in Frameworks */,
 				7789ABEE133AB12F00CEFCC7 /* libz.dylib in Frameworks */,
 				7789ABEC133AB12000CEFCC7 /* OpenGL.framework in Frameworks */,
@@ -3349,8 +3343,6 @@
 			isa = PBXGroup;
 			children = (
 				F8A53CC71E3920A700C602B6 /* SystemConfiguration.framework */,
-				F8A53CC81E3920A700C602B6 /* Fabric.framework */,
-				F8A53CC91E3920A700C602B6 /* Crashlytics.framework */,
 				D35E589D18E391DA008571EC /* GLKit.framework */,
 				B7E1EFDC185F8D3D00C9E6E0 /* WebKit.framework */,
 				80985259182C40170054BBF3 /* CoreMedia.framework */,
@@ -5227,7 +5219,6 @@
 				E3B7AED414E31E5D00DFD402 /* Copy PlugIns */,
 				A535686D1D214BA8009EC595 /* ShellScript */,
 				A5A665F91E2446A000FAD6C4 /* ShellScript */,
-				F8A53CC61E39206D00C602B6 /* Run Script Fabric */,
 			);
 			buildRules = (
 			);
@@ -6636,20 +6627,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd $SRCROOT\ncd ../scripts\nrake build:generated";
-		};
-		F8A53CC61E39206D00C602B6 /* Run Script Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script Fabric";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run f889d4ed3d756062d47b9bfc22677fbdad2ece4e bd1c240f9863ff0b829486f1510ddd37940eb1f18eb26663fa1482d5c6f99a50";
 		};
 /* End PBXShellScriptBuildPhase section */
 
