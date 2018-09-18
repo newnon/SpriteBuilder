@@ -70,7 +70,6 @@
 		776C68911388107400153214 /* missing-font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 776C688F1388107400153214 /* missing-font.fnt */; };
 		776C68921388107400153214 /* missing-font.png in Resources */ = {isa = PBXBuildFile; fileRef = 776C68901388107400153214 /* missing-font.png */; };
 		7789ABC3133AA82000CEFCC7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
-		7789ABCD133AA82000CEFCC7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7789ABCB133AA82000CEFCC7 /* InfoPlist.strings */; };
 		7789ABD0133AA82000CEFCC7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7789ABCF133AA82000CEFCC7 /* main.m */; };
 		7789ABD3133AA82000CEFCC7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 7789ABD1133AA82000CEFCC7 /* Credits.rtf */; };
 		7789ABD6133AA82000CEFCC7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7789ABD5133AA82000CEFCC7 /* AppDelegate.m */; };
@@ -148,10 +147,6 @@
 		83EDACF9193DC99100327B86 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83EDACF8193DC99100327B86 /* Features.plist */; };
 		83F8673418D1DCEA007441E4 /* SBErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F8673318D1DCEA007441E4 /* SBErrors.m */; };
 		83FC411319815B8600799B6C /* ProjectSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FC411219815B8600799B6C /* ProjectSettingsWindow.xib */; };
-		92154AC718A5531800BD215C /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92154ABF18A5531800BD215C /* CCBPProperties.plist */; };
-		92154AC918A5531800BD215C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92154AC218A5531800BD215C /* InfoPlist.strings */; };
-		92154ACA18A5531800BD215C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 92154AC418A5531800BD215C /* Icon.png */; };
-		92154ACB18A5531800BD215C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92154AC518A5531800BD215C /* Icon@2x.png */; };
 		92154AD318A5560B00BD215C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C623B217F383CE00928F91 /* CoreFoundation.framework */; };
 		92154ADE18A5565C00BD215C /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92154ABF18A5531800BD215C /* CCBPProperties.plist */; };
 		92154ADF18A5565C00BD215C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92154AC218A5531800BD215C /* InfoPlist.strings */; };
@@ -228,11 +223,6 @@
 		92B1B9D5192429A400DB91F5 /* joint-pivot-range.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B1B9D3192429A400DB91F5 /* joint-pivot-range.png */; };
 		92B1B9D6192429A400DB91F5 /* joint-pivot-range@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B1B9D4192429A400DB91F5 /* joint-pivot-range@2x.png */; };
 		92B7900518C808B7007DF895 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7C623B217F383CE00928F91 /* CoreFoundation.framework */; };
-		92B792C918C92C60007DF895 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B792C018C92C60007DF895 /* CCBPProperties.plist */; };
-		92B792CA18C92C60007DF895 /* CCPhysicsSpringJoint-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B792C118C92C60007DF895 /* CCPhysicsSpringJoint-Info.plist */; };
-		92B792CB18C92C60007DF895 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92B792C318C92C60007DF895 /* InfoPlist.strings */; };
-		92B792CC18C92C60007DF895 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B792C518C92C60007DF895 /* Icon.png */; };
-		92B792CD18C92C60007DF895 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92B792C618C92C60007DF895 /* Icon@2x.png */; };
 		92B792CE18C92CA1007DF895 /* CCBPhyicsSpringJointPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B792BD18C92C60007DF895 /* CCBPhyicsSpringJointPlaceholder.m */; };
 		92B792D218C92FE7007DF895 /* CCBPhysicsSpringJoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B792BF18C92C60007DF895 /* CCBPhysicsSpringJoint.m */; };
 		92B792D318C92FEF007DF895 /* CCBPhysicsTwoBodyJoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B792D018C92D80007DF895 /* CCBPhysicsTwoBodyJoint.m */; };
@@ -277,7 +267,6 @@
 		A50A10E71E5D8CA900C60B29 /* CCBPScrollBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A50A10DD1E5D8CA900C60B29 /* CCBPScrollBar.m */; };
 		A50A10E81E5D8CA900C60B29 /* CCScrollBar-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A50A10DE1E5D8CA900C60B29 /* CCScrollBar-Info.plist */; };
 		A50A10E91E5D8CA900C60B29 /* CCScrollBar-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A50A10DE1E5D8CA900C60B29 /* CCScrollBar-Info.plist */; };
-		A50A10EA1E5D8CA900C60B29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A50A10E01E5D8CA900C60B29 /* InfoPlist.strings */; };
 		A50A10EB1E5D8CA900C60B29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A50A10E01E5D8CA900C60B29 /* InfoPlist.strings */; };
 		A50A10EC1E5D8CA900C60B29 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A50A10E21E5D8CA900C60B29 /* Icon.png */; };
 		A50A10ED1E5D8CA900C60B29 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A50A10E21E5D8CA900C60B29 /* Icon.png */; };
@@ -5876,7 +5865,6 @@
 				92F0960A18F8851300D47A94 /* inspector-body-remove.png in Resources */,
 				92BF5E5B187B43F00072C3A1 /* AudioPlayerView.xib in Resources */,
 				92F0960918F8851300D47A94 /* inspector-body-bg.png in Resources */,
-				92154ACB18A5531800BD215C /* Icon@2x.png in Resources */,
 				80F90905183C188400A714FC /* seq-visible-faint.png in Resources */,
 				8045F136183ADA900082BD94 /* seq-visible.png in Resources */,
 				B71706D0184ECD660081720A /* select-rotation@2x.png in Resources */,
@@ -5892,7 +5880,6 @@
 				B7E6BB6819F86A9800619A58 /* ui-nopreview@2x.png in Resources */,
 				830485A519AF2A6E00A624BB /* PreviewAudioView.xib in Resources */,
 				B71706CD184ECD660081720A /* select-crosshair@2x.png in Resources */,
-				7789ABCD133AA82000CEFCC7 /* InfoPlist.strings in Resources */,
 				7789ABD3133AA82000CEFCC7 /* Credits.rtf in Resources */,
 				7789ABD9133AA82000CEFCC7 /* MainMenu.xib in Resources */,
 				7789ACF1133BD5E800CEFCC7 /* header-bg.png in Resources */,
@@ -5918,11 +5905,9 @@
 				774E4ED2136DFFB70025D0A8 /* btn-scale-hi.png in Resources */,
 				774E4ED3136DFFB70025D0A8 /* btn-scale.png in Resources */,
 				77E1995213858DE0006C361B /* overflowImage.png in Resources */,
-				A50A10EA1E5D8CA900C60B29 /* InfoPlist.strings in Resources */,
 				83EDACF9193DC99100327B86 /* Features.plist in Resources */,
 				77E1995313858DE0006C361B /* overflowImagePressed.png in Resources */,
 				77E1995413858DE0006C361B /* pi.png in Resources */,
-				92154ACA18A5531800BD215C /* Icon.png in Resources */,
 				F89F37B81E488DFC0038D53B /* AUTHORS in Resources */,
 				8304858519AE063A00A624BB /* PreviewCCBView.xib in Resources */,
 				77E1995513858DE0006C361B /* TabClose_Dirty_Pressed.png in Resources */,
@@ -5965,7 +5950,6 @@
 				776A370F139544A200960E94 /* TB_zoomOut.png in Resources */,
 				776A37B8139BCE3600960E94 /* TB_imageAssets.png in Resources */,
 				92F0960F18F8851300D47A94 /* inspector-body-disconnected@2x.png in Resources */,
-				92154AC718A5531800BD215C /* CCBPProperties.plist in Resources */,
 				B71706D2184ECD660081720A /* select-skew@2x.png in Resources */,
 				92F0961618F8855A00D47A94 /* inspector-body-goto-hi.png in Resources */,
 				9218DF2A1919B04D0033851E /* joint-pivot-handle-ratchet.png in Resources */,
@@ -6183,7 +6167,6 @@
 				B7AC69CA17A70A4B0041B8BD /* inspector-codeconnections@2x.png in Resources */,
 				9218DF331919B04D0033851E /* joint-pivot-mode-s-on.png in Resources */,
 				B7AC69CB17A70A4B0041B8BD /* inspector-props.png in Resources */,
-				92154AC918A5531800BD215C /* InfoPlist.strings in Resources */,
 				B7AC69CC17A70A4B0041B8BD /* inspector-props@2x.png in Resources */,
 				B7AC69CD17A70A4B0041B8BD /* inspector-template.png in Resources */,
 				92F0960B18F8851300D47A94 /* inspector-body-remove-hi@2x.png in Resources */,
@@ -6530,12 +6513,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E398C02914FB81A30078E771 /* InfoPlist.strings in Resources */,
-				92B792CD18C92C60007DF895 /* Icon@2x.png in Resources */,
-				92B792CB18C92C60007DF895 /* InfoPlist.strings in Resources */,
 				9297636B187775A0008F997B /* AudioPlayerView.xib in Resources */,
-				92B792CC18C92C60007DF895 /* Icon.png in Resources */,
-				92B792C918C92C60007DF895 /* CCBPProperties.plist in Resources */,
-				92B792CA18C92C60007DF895 /* CCPhysicsSpringJoint-Info.plist in Resources */,
 				D2E0168A18D789E700927430 /* SpriteBuilderX.sdef in Resources */,
 				9254805A18D913C500236DED /* seq-locked-faint.png in Resources */,
 				E525F2CA0ED42F21A4777F2E /* InspectorPopoverFloat.xib in Resources */,
