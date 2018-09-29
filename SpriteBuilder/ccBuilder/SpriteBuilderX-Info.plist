@@ -79,6 +79,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<true/>
 	<key>OSAScriptingDefinition</key>
 	<string>SpriteBuilderX.sdef</string>
 	<key>SUPublicDSAKeyFile</key>
